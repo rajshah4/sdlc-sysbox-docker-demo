@@ -4,7 +4,7 @@ These four broad skills are intentionally version-controlled in a first-class `s
 
 | Skill | Purpose |
 | --- | --- |
-| `sdlc-story` | Turns sparse GitHub issues into open specifications, scoped Petstore changes, tests, and PRs. |
+| `sdlc-story` | Turns sparse GitHub issues into OpenSpec-style change artifacts, scoped Petstore changes, tests, and PRs. |
 | `sdlc-qa` | Builds out automated QA evidence, including API tests and UI smoke/browser evidence where applicable. |
 | `sdlc-incident` | Performs SRE incident triage with Cloud Run/Cloud Logging evidence and bounded remediation rules. |
 | `sdlc-code-review` | Layers Petstore-specific correctness, risk, and supply-chain checks onto OpenHands `/codereview`. |

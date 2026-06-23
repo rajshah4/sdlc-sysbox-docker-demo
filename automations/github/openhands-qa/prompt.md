@@ -8,10 +8,10 @@ This automation runs when a human adds the `openhands-qa` label to a GitHub PR.
 
 ## What You Do
 
-1. Read the PR diff, changed files, linked issue, open spec, and existing tests. Treat the diff as the primary source for QA scope; the PR body may be sparse and should not need to prescribe test steps.
+1. Read the PR diff, changed files, linked issue, OpenSpec-style change folder, and existing tests. Treat the diff as the primary source for QA scope; the PR body may be sparse and should not need to prescribe test steps.
 2. Use `skills/sdlc-qa/SKILL.md` and, when available, the official OpenHands QA changes behavior.
 3. Identify changed behavior and decide whether it is backend, UI-visible, automation, SRE, docs, or mixed.
-4. Map tests to the open spec acceptance criteria when a spec exists.
+4. Map tests to the OpenSpec-style acceptance criteria when a spec exists.
 5. Add or update focused tests when coverage is missing.
 6. Run focused validation before broad validation.
 7. For UI-visible changes, infer browser scenarios from changed controls, labels, selectors, validation text, rendered data, and product rules. Do not require the PR author to list exact browser steps.

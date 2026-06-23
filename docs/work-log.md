@@ -12,15 +12,16 @@
 ## 2026-06-23
 
 - Reworked the repo-local skills into four broad automation skills:
-  - `sdlc-story`: sparse GitHub issue to open specification to PR.
+  - `sdlc-story`: sparse GitHub issue to OpenSpec-style change artifacts to PR.
   - `sdlc-qa`: automated test-suite buildout and UI evidence.
   - `sdlc-incident`: SRE incident triage with Cloud Run/Cloud Logging evidence and bounded remediation.
   - `sdlc-code-review`: OpenHands `/codereview` with Petstore risk and supply-chain checks.
 - Folded earlier helper skills into references and scripts under the four primary skills.
-- Added OpenSpec template and validation tooling so the request-to-PR flow has a versioned specification artifact.
+- Added a lightweight OpenSpec-inspired template and validation tooling so the request-to-PR flow has a versioned specification artifact.
 - Added QA references and a local server harness adapted from the automated QA demo pattern.
 - Added SRE references and observation-summary tooling adapted from the Cloud Run incident demo pattern.
 - Added code-review risk and supply-chain references based on OpenHands code-review guidance.
+- Reworked the story-to-PR specification layer to show clear Fission-AI/OpenSpec lineage: `openspec/changes/<change-id>/proposal.md`, `design.md`, `tasks.md`, and `specs/.../spec.md`. The skill explains why the timed automation writes artifacts directly instead of installing or invoking the OpenSpec CLI live.
 - Registered the four OpenHands prompt-preset automations with the Rajistics Replicated API key:
   - build: `0ce7add1-fbba-40ef-bc0d-bef77f1bd108`
   - incident: `31c15181-2c7a-446e-8156-232808e6d1fc`

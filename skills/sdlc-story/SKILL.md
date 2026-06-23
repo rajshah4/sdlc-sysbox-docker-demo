@@ -1,6 +1,6 @@
 ---
 name: sdlc-story
-description: Turn sparse GitHub issues into an open specification, scoped Petstore implementation, tests, and a human-reviewable PR for the SDLC Automation Demo.
+description: Turn sparse GitHub issues into OpenSpec-style change artifacts, scoped Petstore implementation, tests, and a human-reviewable PR for the SDLC Automation Demo.
 triggers:
   - openhands-build
   - open spec
@@ -13,7 +13,19 @@ triggers:
 
 Use this skill when OpenHands turns a GitHub issue into a small reviewable PR.
 
-The customer-facing story is: a sparse GitHub request becomes an open specification, then an implementation branch, then a PR that humans review and merge.
+The customer-facing story is: a sparse GitHub request becomes an OpenSpec-style change proposal, spec delta, design, and task list, then an implementation branch, then a PR that humans review and merge.
+
+## OpenSpec Lineage
+
+This skill intentionally follows the Fission-AI/OpenSpec project:
+
+- Project: `https://github.com/Fission-AI/OpenSpec`
+- Site: `https://openspec.pro`
+- Upstream pattern: `openspec/changes/<change-id>/proposal.md`, `design.md`, `tasks.md`, and `specs/.../spec.md`
+
+For live OpenHands Automations, do not run `npm install`, `npm install -g @fission-ai/openspec`, or `openspec init/update` inside the timed label-triggered run. Those steps add network and toolchain variance to a customer demo. Instead, create the OpenSpec-style artifacts directly from `references/open-spec-template.md` and validate them with `scripts/validate_open_spec.py`.
+
+If the OpenSpec CLI is preinstalled and the operator explicitly asks to use it, it is acceptable to run read-only or already-installed CLI validation. Otherwise, keep the live automation deterministic and explain in the PR that the artifacts follow OpenSpec lineage without invoking the CLI during the run.
 
 ## Inputs
 
@@ -23,7 +35,7 @@ The customer-facing story is: a sparse GitHub request becomes an open specificat
 - acceptance criteria when present
 - linked PRs or previous automation comments when present
 
-Sparse issues are acceptable when the title maps to an existing Petstore behavior. Infer the smallest safe implementation, but write the assumptions and human gates into an open specification before editing code.
+Sparse issues are acceptable when the title maps to an existing Petstore behavior. Infer the smallest safe implementation, but write the assumptions, spec delta, task list, and human gates into the OpenSpec-style change folder before editing code.
 
 ## GitHub Boundaries
 
@@ -37,29 +49,31 @@ Sparse issues are acceptable when the title maps to an existing Petstore behavio
 
 1. Read `README.md`, `AGENTS.md`, and the issue context.
 2. Run `python3 skills/sdlc-story/scripts/extract_acceptance_criteria.py "<issue title>"` with the issue body on stdin when useful.
-3. Create or update an open spec at `specs/github-issue-<number>/open-spec.md`.
-4. Validate the spec with `python3 skills/sdlc-story/scripts/validate_open_spec.py specs/github-issue-<number>/open-spec.md`.
-5. Search existing app code and tests.
-6. Implement a narrow change that satisfies the spec.
-7. Add or update focused tests.
-8. Run the narrowest useful validation first.
-9. Open a draft PR with spec link, evidence, and human-review notes.
+3. Create or update an OpenSpec-style change folder at `openspec/changes/github-issue-<number>-<slug>/`.
+4. Include `proposal.md`, `design.md`, `tasks.md`, and at least one `specs/<capability>/spec.md` file.
+5. Validate the change folder with `python3 skills/sdlc-story/scripts/validate_open_spec.py openspec/changes/github-issue-<number>-<slug>`.
+6. Search existing app code and tests.
+7. Implement a narrow change that satisfies the spec delta.
+8. Add or update focused tests.
+9. Run the narrowest useful validation first.
+10. Open a draft PR with OpenSpec change link, evidence, and human-review notes.
 
-## Open Specification
+## OpenSpec-Style Change Artifacts
 
-Use `references/open-spec-template.md` for the required headings and demo-friendly language. The spec is not ceremony; it is the contract that connects the request, implementation, QA, review, and incident follow-up.
+Use `references/open-spec-template.md` for the required folder shape, headings, and demo-friendly language. The artifacts are not ceremony; they are the contract that connects the request, implementation, QA, review, and incident follow-up.
 
-The spec must include:
+The change folder must include:
 
 - source issue/comment link
-- assumptions and non-goals
-- acceptance criteria
+- proposal with why, what changes, impact, assumptions, and non-goals
+- spec delta with acceptance criteria expressed as requirements and scenarios
+- design notes for the smallest safe implementation
+- task checklist
 - human gates
-- implementation plan
 - validation plan
 - evidence checklist
 
-If a request has unresolved product, security, data, or environment questions, post the partial spec and label `openhands:needs-human` instead of guessing.
+If a request has unresolved product, security, data, or environment questions, post the partial OpenSpec-style change and label `openhands:needs-human` instead of guessing.
 
 ## Petstore Map
 
@@ -67,7 +81,7 @@ If a request has unresolved product, security, data, or environment questions, p
 - Adoption behavior: `app/petstore_app/adoptions.py`
 - Static UI: `app/web/`
 - Tests: `app/tests/`
-- Open specs: `specs/github-issue-<number>/open-spec.md`
+- OpenSpec-style changes: `openspec/changes/github-issue-<number>-<slug>/`
 
 ## Sparse Story Examples
 
@@ -93,7 +107,7 @@ Ask for human input if the issue requires a product decision, schema migration, 
 
 The PR body must show:
 
-- open spec path
+- OpenSpec change path
 - assumptions and non-goals
 - acceptance criteria status
 - files changed

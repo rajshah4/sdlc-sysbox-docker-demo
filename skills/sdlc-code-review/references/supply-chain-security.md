@@ -4,7 +4,7 @@ Use this reference when a PR adds or changes dependencies, package metadata, Git
 
 ## Demo Default
 
-The SDLC Automation Demo should avoid new dependencies unless the open specification explicitly requires them. Most Petstore changes can use the Python standard library and existing pytest setup.
+The SDLC Automation Demo should avoid new dependencies unless the OpenSpec-style change explicitly requires them. Most Petstore changes can use the Python standard library and existing pytest setup.
 
 ## Review Checks
 

@@ -84,4 +84,4 @@ The static UI should continue to show:
 - stable controls for the changed behavior
 - no trigger phrases in automation result text
 
-When the PR adds a UI control, assert that the control exists and that its label/value maps to the open specification.
+When the PR adds a UI control, assert that the control exists and that its label/value maps to the OpenSpec-style requirements and scenarios.

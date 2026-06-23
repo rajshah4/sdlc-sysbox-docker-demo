@@ -14,22 +14,27 @@ Add the label `openhands-build`.
 
 OpenHands should clarify the request inside the conversation, infer the smallest safe Petstore change, create a feature branch, run focused tests, and open a draft PR. The PR should document assumptions, acceptance criteria, evidence, and human review notes.
 
-## 2. Automation Creates An Open Specification And PR
+## 2. Automation Creates OpenSpec-Style Artifacts And PR
 
-Show the generated open specification, usually:
+Show the generated OpenSpec-style change folder, usually:
 
 ```text
-specs/github-issue-<number>/open-spec.md
+openspec/changes/github-issue-<number>-<slug>/
 ```
 
 Call out how the sparse issue became:
 
+- `proposal.md`
+- `design.md`
+- `tasks.md`
+- `specs/<capability>/spec.md`
 - assumptions
 - non-goals
-- acceptance criteria
+- requirements and scenarios
 - human gates
-- implementation plan
 - validation plan
+
+Lineage note: this demo follows the Fission-AI/OpenSpec change-folder model. The live automation writes the artifacts directly instead of installing or invoking the OpenSpec CLI during the timed label-triggered run, which keeps the customer demo deterministic.
 
 Then show the generated PR.
 
@@ -50,7 +55,7 @@ OpenHands should inspect the diff, apply the repo-local `sdlc-code-review` skill
 
 On the PR, add the label `openhands-qa`.
 
-OpenHands should run or add focused tests, exercise the changed behavior, map results back to the open spec, and include UI evidence when the static web app changed.
+OpenHands should run or add focused tests, exercise the changed behavior, map results back to the OpenSpec-style change artifacts, and include UI evidence when the static web app changed.
 
 ## 5. Human Review And Merge
 
@@ -75,7 +80,7 @@ OpenHands should collect GCP evidence, summarize impact, identify whether remedi
 
 ## Four Skills To Show
 
-- `skills/sdlc-story`: issue to open specification to PR.
+- `skills/sdlc-story`: issue to OpenSpec-style change artifacts to PR.
 - `skills/sdlc-qa`: automated test suite and UI evidence.
 - `skills/sdlc-incident`: SRE incident triage with GCP evidence.
 - `skills/sdlc-code-review`: OpenHands `/codereview` plus Petstore-specific risk checks.

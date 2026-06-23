@@ -19,6 +19,8 @@ Use this checklist to configure the GitHub-native SDLC Automation Demo. Do not p
 - Repo search works in OpenHands.
 - Adding the `openhands-build` label to a clean issue creates a conversation in the self-hosted instance.
 - Automations are registered from `automations/github/*/automation.prompt-preset.json`.
+- Story-to-PR artifacts follow Fission-AI/OpenSpec lineage, with change folders under `openspec/changes/`.
+- The live automation does not install or run the OpenSpec CLI during the timed label-triggered flow; use preinstalled CLI setup/archive commands outside the demo run when needed.
 - Only one OpenHands GitHub App should respond on this repo; duplicate public/self-hosted installs can create confusing duplicate runs.
 - The four repo-local skills are loaded from `skills/`, not from a hidden `.agents` directory:
   - `skills/sdlc-story`
@@ -51,7 +53,7 @@ Use this checklist to configure the GitHub-native SDLC Automation Demo. Do not p
 ## Cost And Security
 
 - Event-driven triggers avoid unnecessary LLM calls.
-- `scripts/preflight_github_demo.py`, OpenSpec validation, label setup, and Petstore SRE observation scripts are deterministic and do not call an LLM.
+- `scripts/preflight_github_demo.py`, OpenSpec-style validation, label setup, and Petstore SRE observation scripts are deterministic and do not call an LLM.
 - Different LLM profiles can be mapped by stage: review, QA, build, incident, and critic.
 - Secrets stay in OpenHands secret store or local `.env`.
 - Humans approve PRs, reviews, merges, deployments, and production-facing fixes.

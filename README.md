@@ -32,14 +32,14 @@ one bounded automation, then posts evidence back where the team already works.
 
 | Work cell | Trigger | What OpenHands does | What humans control |
 | --- | --- | --- | --- |
-| **Story to PR** | Apply `openhands-build` to a sparse issue | Clarifies the request, writes an open specification, implements the change, runs tests, and opens a PR | Scope, review, approval, and merge |
+| **Story to PR** | Apply `openhands-build` to a sparse issue | Clarifies the request, writes OpenSpec-style change artifacts, implements the change, runs tests, and opens a PR | Scope, review, approval, and merge |
 | **Code Review** | Apply `openhands-review` to a PR | Reads the diff, checks risk areas, and posts review findings as a PR comment | Which findings block the PR |
 | **Automated QA** | Apply `openhands-qa` to a PR | Builds or updates test coverage, runs deterministic checks, and includes UI test evidence where applicable | Test acceptance and merge readiness |
 | **SRE Incident** | Apply `openhands-incident` to an incident issue | Gathers Cloud Run / Cloud Logging evidence, diagnoses likely cause, and proposes a fix or asks for human help | Production credentials, remediation approval, and merge |
 
 ## What You'll See
 
-- A sparse issue becomes a PR with an implementation branch and a visible spec.
+- A sparse issue becomes a PR with an implementation branch and visible OpenSpec-style proposal/spec/design/task artifacts.
 - A PR receives an automated review comment rather than a silent background score.
 - QA output lands on the PR with concrete test files and command results.
 - An incident issue receives an evidence-first triage response; if cloud context
@@ -55,7 +55,8 @@ repo-local knowledge, not a custom agent runtime.
 | Capability | Where it lives | Why it matters |
 | --- | --- | --- |
 | OpenHands Automations | `automations/github/` | Four label-triggered prompt presets registered in the Rajistics OpenHands instance. No polling and no GitHub Actions required for the live flow. |
-| Repo-local skills | `skills/` | Four reusable skills encode story/spec, QA, SRE, and code-review behavior with scripts and references that customers can inspect. |
+| Repo-local skills | `skills/` | Four reusable skills encode story/spec, QA, SRE, and code-review behavior with scripts and references that customers can inspect. The story skill follows Fission-AI/OpenSpec lineage while avoiding live package installs during timed automation runs. |
+| OpenSpec-style artifacts | `openspec/` | Repo-local context and generated change folders keep request, proposal, spec delta, design, and tasks version controlled. |
 | Deterministic scripts | `scripts/` | Preflight, label setup, fixture simulation, Petstore checks, and GCP helpers run before broader model reasoning where possible. |
 | GitHub templates and labels | `.github/` | Issues, PRs, and labels define the human approval boundaries. |
 | Petstore app | `app/` | A small API/UI surface gives the automations realistic code, tests, and incident paths to work on. |
@@ -79,6 +80,7 @@ python3 scripts/simulate_github_event.py --fixture tests/fixtures/github_issue_l
 | --- | --- |
 | `app/` | Small Petstore app, static UI, Cloud Run surface, and app tests. |
 | `automations/` | Four OpenHands prompt-preset automations registered in Rajistics. |
+| `openspec/` | OpenSpec-style project context and generated change folders for story-to-PR work. |
 | `skills/` | Four repo-local OpenHands skills with scripts and references. |
 | `scripts/` | Deterministic setup, registration, preflight, QA, and SRE helpers. |
 | `docs/` | Customer-facing setup, walkthrough, and validation notes. |

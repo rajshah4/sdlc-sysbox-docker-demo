@@ -54,7 +54,7 @@ Run `python3 skills/sdlc-code-review/scripts/review_checklist.py` for a determin
 
 ## Evidence Expectations
 
-- Read the PR body, diff, linked issue, and open spec if present.
+- Read the PR body, diff, linked issue, and OpenSpec-style change folder if present.
 - Verify tests match changed behavior.
 - Call out claims that are not backed by commands or UI evidence.
 - If no issues are found, say that clearly and note any residual risk or test gap.

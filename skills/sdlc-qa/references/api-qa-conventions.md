@@ -10,7 +10,7 @@ Prefer a three-part pytest shape:
 2. Act once through the public function or HTTP boundary being tested.
 3. Assert status, body/return value, and important side effects.
 
-Keep tests readable enough that a reviewer can map them back to the open specification.
+Keep tests readable enough that a reviewer can map them back to the OpenSpec-style requirements and scenarios.
 
 ## Petstore Coverage Matrix
 

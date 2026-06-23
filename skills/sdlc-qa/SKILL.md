@@ -23,7 +23,7 @@ This skill is based on the automated QA demo pattern: understand the changed beh
 
 ## Strategy
 
-1. Read the PR diff, changed files, linked issue, open spec, and existing test evidence. Treat the diff as the source of truth; the PR body may be sparse.
+1. Read the PR diff, changed files, linked issue, OpenSpec-style change folder, and existing test evidence. Treat the diff as the source of truth; the PR body may be sparse.
 2. Classify the change as backend, UI, automation, docs, SRE, or mixed.
 3. Read the relevant reference:
    - `references/api-qa-conventions.md` for Python behavior/API changes.
@@ -44,7 +44,7 @@ derive scenarios from:
 - changed labels, controls, buttons, validation messages, and aria-live regions
 - changed selectors or element IDs
 - changed fixture/data values and rendered states
-- changed product rules from the linked issue or open spec
+- changed product rules from the linked issue or OpenSpec-style change artifacts
 - existing Petstore rules such as available-only default search and integer-cent fees
 
 When a PR adds a UI control, test the natural workflow for that control:
@@ -103,4 +103,4 @@ python3 skills/sdlc-qa/scripts/with_server.py --server "python3 -m http.server 4
 - result summary
 - UI evidence for UI behavior, including GIF/screenshot/report links when available
 - remaining risk
-- whether the open spec acceptance criteria were satisfied
+- whether the OpenSpec-style acceptance criteria were satisfied

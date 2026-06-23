@@ -1,27 +1,58 @@
-# Open Specification Template
+# OpenSpec-Style Change Template
 
 Use this template when `sdlc-story` converts a sparse GitHub issue into implementation work.
 
-Recommended path:
+## Lineage
+
+This demo intentionally follows the Fission-AI/OpenSpec project:
+
+- Project: `https://github.com/Fission-AI/OpenSpec`
+- Site: `https://openspec.pro`
+- Upstream workflow: create a change folder, write proposal/spec/design/tasks, implement, then archive.
+
+The live OpenHands automation writes OpenSpec-style artifacts directly instead
+of invoking the OpenSpec CLI. That is deliberate for customer demos: the
+automation has a bounded timeout, should avoid live package installs, and should
+not depend on global Node tooling being present. If the CLI is preinstalled,
+operators can use it outside the timed run to initialize, update, or archive.
+
+## Recommended Path
 
 ```text
-specs/github-issue-<issue-number>/open-spec.md
+openspec/changes/github-issue-<issue-number>-<short-slug>/
 ```
 
-## Required Headings
+## Required Files
+
+```text
+proposal.md
+design.md
+tasks.md
+specs/<capability>/spec.md
+```
+
+See `openspec-change-template/` for a complete example folder that can be
+validated with:
+
+```bash
+python3 skills/sdlc-story/scripts/validate_open_spec.py \
+  skills/sdlc-story/references/openspec-change-template
+```
+
+## `proposal.md`
 
 ```markdown
-# OpenSpec: <short feature name>
+# Change: <short feature name>
+
+## Why
+
+<One paragraph in customer-facing language.>
 
 ## Source
 
 - GitHub issue:
-- Trigger:
+- Trigger label:
 - Automation:
-
-## Request Summary
-
-<One paragraph in customer-facing language.>
 
 ## Assumptions
 
@@ -31,9 +62,15 @@ specs/github-issue-<issue-number>/open-spec.md
 
 - <Thing explicitly out of scope.>
 
-## Acceptance Criteria
+## What Changes
 
-- [ ] <Observable behavior or testable outcome.>
+- <Observable behavior or implementation change.>
+
+## Impact
+
+- App behavior:
+- Tests:
+- Humans:
 
 ## Human Gates
 
@@ -41,30 +78,67 @@ specs/github-issue-<issue-number>/open-spec.md
 - Review approval:
 - Merge approval:
 - Deployment approval:
+```
 
-## Implementation Plan
+## `specs/<capability>/spec.md`
 
-- <Small, ordered implementation step.>
+```markdown
+# <capability> Spec Delta
+
+## ADDED Requirements
+
+### Requirement: <observable behavior>
+
+#### Scenario: <happy path or boundary path>
+
+- Given <initial state>
+- When <user or system action>
+- Then <observable result>
+```
+
+## `design.md`
+
+```markdown
+# Design
+
+## Context
+
+<Relevant Petstore behavior and constraints.>
+
+## Decision
+
+- <Small implementation decision.>
+
+## Risks
+
+- <Risk and mitigation.>
 
 ## Validation Plan
 
-- <Focused test or deterministic command.>
+- <Focused deterministic command or test.>
+```
 
-## Evidence Checklist
+## `tasks.md`
 
-- [ ] Tests added or updated.
-- [ ] Commands run.
-- [ ] UI evidence captured when UI changed.
-- [ ] Residual risk documented.
+```markdown
+# Tasks
+
+- [ ] Update OpenSpec-style spec delta.
+- [ ] Implement the smallest safe code change.
+- [ ] Add or update focused tests.
+- [ ] Run validation.
+- [ ] Document evidence and residual risk in the PR.
 ```
 
 ## Demo Language
 
 - Say "SDLC Automation Demo."
-- Say "open specification" when explaining the bridge from comment to PR.
-- Emphasize that the spec is version controlled and reviewable.
+- Say "OpenSpec-style change artifacts" when explaining the bridge from comment to PR.
+- Link to `https://github.com/Fission-AI/OpenSpec` when explaining lineage.
+- Emphasize that the change folder is version controlled and reviewable.
 - Make human control explicit: OpenHands proposes and implements; humans approve scope, review, merge, and deployment.
 - Mention cost control naturally: deterministic extraction and validation happen before broad LLM exploration.
+- If asked why the CLI was not run live, say: "The demo keeps the timed automation deterministic and avoids package installs; these artifacts follow OpenSpec's folder and review model."
 
 ## Scope Guardrails
 
