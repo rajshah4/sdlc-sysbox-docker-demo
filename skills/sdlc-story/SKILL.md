@@ -1,6 +1,6 @@
 ---
 name: sdlc-story
-description: Turn sparse GitHub issues or issue comments into an open specification, scoped Petstore implementation, tests, and a human-reviewable PR for the SDLC Automation Demo.
+description: Turn sparse GitHub issues into an open specification, scoped Petstore implementation, tests, and a human-reviewable PR for the SDLC Automation Demo.
 triggers:
   - openhands-build
   - open spec
@@ -11,7 +11,7 @@ triggers:
 
 # SDLC Request To PR
 
-Use this skill when OpenHands turns a GitHub issue or issue comment into a small reviewable PR.
+Use this skill when OpenHands turns a GitHub issue into a small reviewable PR.
 
 The customer-facing story is: a sparse GitHub request becomes an open specification, then an implementation branch, then a PR that humans review and merge.
 
@@ -27,7 +27,7 @@ Sparse issues are acceptable when the title maps to an existing Petstore behavio
 
 ## GitHub Boundaries
 
-- Trigger labels/comments: `openhands-build`
+- Trigger label: `openhands-build`
 - Status labels: `openhands:ready`, `openhands:in-progress`, `openhands:needs-human`, `openhands:done`
 - Use event context; do not poll GitHub.
 - Avoid result comments that repeat the exact trigger text.

@@ -10,13 +10,13 @@ triggers:
 
 # SDLC SRE Incident Triage
 
-Use this skill when a GitHub issue or comment reports a production symptom.
+Use this skill when a GitHub issue reports a production symptom.
 
 This skill is based on the SRE Cloud Run remediation demo pattern: observe first, separate evidence from hypotheses, use deterministic scripts before broad reasoning, and keep production changes behind explicit safety checks and human control.
 
 ## GitHub Boundaries
 
-- Trigger labels/comments: `openhands-incident`
+- Trigger label: `openhands-incident`
 - Status labels: `openhands:ready`, `openhands:in-progress`, `openhands:needs-human`, `openhands:done`
 - Incident automation may post an operator report or open a small PR.
 - Incident automation must not merge, deploy, change IAM, rotate secrets, or mutate cloud resources without the bounded safe-remediation criteria.

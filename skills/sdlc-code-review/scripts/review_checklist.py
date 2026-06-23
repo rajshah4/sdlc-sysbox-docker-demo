@@ -10,7 +10,7 @@ CHECKS = [
     "Fee and donation math uses integer cents.",
     "New filters reject invalid ranges or negative values.",
     "User-visible behavior has tests and QA evidence.",
-    "Automation comments avoid exact trigger text to prevent loops.",
+    "Automation status-label changes cannot retrigger work.",
     "Open spec acceptance criteria map to code and tests.",
     "Incident remediation requires Cloud Logging evidence and safe_to_remediate=true.",
     "Dependency, workflow, Dockerfile, and installer changes get supply-chain review.",

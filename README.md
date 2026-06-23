@@ -4,21 +4,21 @@ This repository is a GitHub-native version of the SDLC Automation Demo. It shows
 
 The demo uses a small Petstore application so the automation output is concrete:
 
-- `openhands-build`: issue or issue comment -> clarified spec -> implementation branch -> PR
-- `openhands-review`: PR label or comment -> code review comment
-- `openhands-qa`: PR label or comment -> generated QA/test evidence, including UI checks when relevant
-- `openhands-incident`: incident issue or comment -> GCP log analysis -> report or small fix PR
+- `openhands-build`: issue label -> clarified spec -> implementation branch -> PR
+- `openhands-review`: PR label -> code review comment
+- `openhands-qa`: PR label -> generated QA/test evidence, including UI checks when relevant
+- `openhands-incident`: incident issue label -> GCP log analysis -> report or small fix PR
 
 ## Why This Repo Exists
 
-The Azure DevOps demo remains preserved in its original repository. This repo is intentionally GitHub-first: GitHub issues, PRs, labels, comments, optional GitHub Actions workflows, and OpenHands event automations are the demo boundary.
+The Azure DevOps demo remains preserved in its original repository. This repo is intentionally GitHub-first: GitHub issues, PRs, labels, comments, and OpenHands event automations are the demo boundary.
 
 ## Fast Local Validation
 
 ```bash
 python3 -m pytest -q
 python3 scripts/preflight_github_demo.py --offline
-python3 scripts/simulate_github_event.py --fixture fixtures/github_issue_comment_build.json
+python3 scripts/simulate_github_event.py --fixture fixtures/github_issue_labeled_build.json
 ```
 
 ## Register OpenHands Automations
@@ -37,7 +37,7 @@ Apply registration when `OPENHANDS_HOST_GITHUB`, `OPENHANDS_API_KEY_GITHUB`, `GI
 python3 scripts/register_github_automations.py --apply
 ```
 
-No secrets belong in this repo. Store OpenHands, GitHub, Slack, and GCP credentials in the OpenHands secret store, GitHub Actions secrets, or a local `.env` excluded by `.gitignore`.
+No secrets belong in this repo. Store OpenHands, GitHub, Slack, and GCP credentials in the OpenHands secret store or a local `.env` excluded by `.gitignore`.
 
 ## Demo Docs
 
@@ -45,4 +45,3 @@ No secrets belong in this repo. Store OpenHands, GitHub, Slack, and GCP credenti
 - [Setup checklist](docs/setup-checklist.md)
 - [Work log](docs/work-log.md)
 - [Tested flow and validation notes](docs/tested-demo-flow.md)
-

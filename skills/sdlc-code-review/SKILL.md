@@ -16,7 +16,7 @@ The review should feel like a senior engineer looking for real defects, not a st
 
 ## GitHub Boundaries
 
-- Trigger labels/comments: `openhands-review`
+- Trigger label: `openhands-review`
 - Status labels: `openhands:ready`, `openhands:in-progress`, `openhands:needs-human`, `openhands:done`
 - Prefer a structured PR review with inline findings when line context is available.
 - Do not approve, merge, push fixes, or update branch protection from this skill.
@@ -30,7 +30,7 @@ Lead with concrete findings:
 - security or secret-handling risks
 - missing tests for changed behavior
 - user-visible behavior without QA evidence
-- automation loops or comments that retrigger themselves
+- automation loops or status-label changes that retrigger work
 
 Skip bikeshedding unless it hides a correctness, security, maintainability, or demo-risk problem.
 
@@ -42,7 +42,7 @@ Skip bikeshedding unless it hides a correctness, security, maintainability, or d
 - Money uses integer cents, never floats.
 - New filters reject negative values and invalid ranges.
 - UI changes need UI evidence.
-- Automation result comments should avoid exact trigger text.
+- Automation result comments should focus on evidence and next steps.
 - Incident remediation must require Cloud Logging evidence and `safe_to_remediate=true`.
 
 Run `python3 skills/sdlc-code-review/scripts/review_checklist.py` for a deterministic Petstore checklist when orienting.

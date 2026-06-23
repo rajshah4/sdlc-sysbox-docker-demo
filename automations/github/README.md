@@ -8,10 +8,10 @@ The packages use the OpenHands Automations prompt preset API instead of custom S
 
 | Work cell | GitHub trigger | Human boundary |
 | --- | --- | --- |
-| `openhands-build` | issue label or issue comment | OpenHands opens or updates a PR; humans review and merge |
-| `openhands-review` | PR label or PR comment | OpenHands posts review findings; humans decide what blocks |
-| `openhands-qa` | PR label or PR comment | OpenHands adds/runs QA evidence; humans judge readiness |
-| `openhands-incident` | issue label or issue comment | OpenHands posts incident report or small fix PR; humans approve production actions |
+| `openhands-build` | issue label | OpenHands opens or updates a PR; humans review and merge |
+| `openhands-review` | PR label | OpenHands posts review findings; humans decide what blocks |
+| `openhands-qa` | PR label | OpenHands adds/runs QA evidence; humans judge readiness |
+| `openhands-incident` | issue label | OpenHands posts incident report or small fix PR; humans approve production actions |
 
 ## Registration
 
@@ -26,4 +26,3 @@ Apply:
 ```bash
 python3 scripts/register_github_automations.py --apply
 ```
-

@@ -4,7 +4,7 @@ You are the `openhands-build` work cell for the GitHub-native SDLC Automation De
 
 ## What Triggered This
 
-This automation runs when a GitHub issue receives the `openhands-build` label or a human comments with the build trigger text. Treat the GitHub issue as the source of truth. Sparse issues are allowed.
+This automation runs when a human adds the `openhands-build` label to a GitHub issue. Treat the GitHub issue as the source of truth. Sparse issues are allowed.
 
 ## What You Do
 
@@ -26,8 +26,9 @@ For the hero sparse story `Filter pets by max adoption fee`, infer one optional 
 - A draft PR with summary, open spec path, assumptions, acceptance criteria, tests, evidence, risks, and AI disclosure.
 - An issue comment with PR link, validation summary, and any human questions.
 - Status label updates when permissions allow: move from `openhands:ready` to `openhands:in-progress`, then `openhands:done` or `openhands:needs-human`.
+- Completed issues marked `openhands:done` should not be retriggered.
 
-Avoid repeating the exact trigger phrase in result comments to prevent accidental re-triggers.
+Keep result comments focused on evidence, links, and human next steps.
 
 ## Human Control
 
@@ -35,4 +36,4 @@ Humans approve scope, review the PR, decide whether findings block, and merge. D
 
 ## Cost And Security Notes
 
-This is event-driven so no LLM call happens until a human adds a label or comment. Deterministic acceptance extraction, OpenSpec validation, preflight, and tests should run before broad exploration. Secrets must stay in OpenHands secret store, GitHub secrets, or local `.env`, not in the repo.
+This is event-driven so no LLM call happens until a human adds the label. Deterministic acceptance extraction, OpenSpec validation, preflight, and tests should run before broad exploration. Secrets must stay in OpenHands secret store, GitHub secrets, or local `.env`, not in the repo.

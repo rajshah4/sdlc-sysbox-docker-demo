@@ -1,8 +1,8 @@
 ---
-name: OpenHands incident
-about: Trigger SDLC Automation Demo incident triage flow
+name: SDLC incident report
+about: Create a simple incident report, then add openhands-incident when ready
 title: "[incident] "
-labels: type:incident,openhands-incident,openhands:ready
+labels: type:incident
 assignees: ""
 ---
 
@@ -15,7 +15,6 @@ assignees: ""
 ## Evidence Or Alert Link
 
 
-## Notes For OpenHands
+## Notes
 
-Collect evidence first. Do not mutate cloud resources unless the bounded safe-remediation check passes.
-
+Add the `openhands-incident` label when this issue is ready for automation.

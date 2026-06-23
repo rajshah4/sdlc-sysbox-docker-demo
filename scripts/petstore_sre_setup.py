@@ -50,7 +50,7 @@ def main() -> int:
             "deploy": deploy,
             "broken_state": broken,
             "observation": observed,
-            "trigger": "Create or comment on an Azure Boards work item with: openhands-incident investigate Petstore website regression",
+            "trigger": "Create a GitHub incident issue, then add the openhands-incident label.",
         }
     )
     return 0

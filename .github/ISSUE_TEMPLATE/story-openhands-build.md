@@ -1,8 +1,8 @@
 ---
-name: OpenHands build story
-about: Trigger SDLC Automation Demo story-to-PR flow
+name: SDLC story request
+about: Create a simple story request, then add openhands-build when ready
 title: ""
-labels: type:story,openhands-build,openhands:ready
+labels: type:story
 assignees: ""
 ---
 
@@ -13,7 +13,6 @@ assignees: ""
 
 - [ ]
 
-## Notes For OpenHands
+## Notes
 
-Keep the first PR small, add or update tests, and document assumptions in the PR body.
-
+Add the `openhands-build` label when this issue is ready for automation.

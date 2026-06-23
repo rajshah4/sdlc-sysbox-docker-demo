@@ -1,6 +1,6 @@
 {
-  "_event_name": "issue_comment",
-  "action": "created",
+  "_event_name": "issues",
+  "action": "labeled",
   "repository": {
     "id": 1001,
     "name": "sdlc-automation-github-demo",
@@ -9,18 +9,13 @@
     "html_url": "https://github.com/rajshah4/sdlc-automation-github-demo",
     "owner": {"login": "rajshah4"}
   },
+  "label": {"name": "openhands-build"},
   "issue": {
     "id": 2001,
     "number": 7,
     "title": "Filter pets by max adoption fee",
-    "body": "",
+    "body": "As an adopter, I want to filter pets by maximum adoption fee so I can find pets within my budget.",
     "html_url": "https://github.com/rajshah4/sdlc-automation-github-demo/issues/7",
-    "labels": [{"name": "type:story"}]
-  },
-  "comment": {
-    "id": 3001,
-    "body": "openhands-build",
-    "html_url": "https://github.com/rajshah4/sdlc-automation-github-demo/issues/7#issuecomment-3001",
-    "user": {"login": "demo-user"}
+    "labels": [{"name": "type:story"}, {"name": "openhands-build"}]
   }
 }

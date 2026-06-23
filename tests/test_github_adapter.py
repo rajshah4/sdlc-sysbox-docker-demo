@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 
 from providers.github.adapter import (
-    normalize_issue_comment,
     normalize_issues_event,
     normalize_pull_request_event,
 )
@@ -17,11 +16,11 @@ def load_fixture(name: str) -> dict:
     return json.loads((FIXTURES / name).read_text(encoding="utf-8"))
 
 
-def test_issue_comment_build_trigger_normalizes_sparse_issue() -> None:
-    event = normalize_issue_comment(load_fixture("github_issue_comment_build.json"))
+def test_issue_label_build_trigger_normalizes_sparse_issue() -> None:
+    event = normalize_issues_event(load_fixture("github_issue_labeled_build.json"))
 
     assert event.provider == "github"
-    assert event.event_type == "issue_comment.created"
+    assert event.event_type == "issues.labeled"
     assert event.trigger.name == "openhands-build"
     assert event.issue is not None
     assert event.issue.number == 7
@@ -43,4 +42,3 @@ def test_issue_label_incident_trigger_normalizes_issue() -> None:
     assert event.trigger.name == "openhands-incident"
     assert event.issue is not None
     assert "type:incident" in event.issue.labels
-

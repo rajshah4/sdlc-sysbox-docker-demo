@@ -2,7 +2,7 @@
 
 This is the live flow for the GitHub-native SDLC Automation Demo.
 
-## 1. Create Or Comment On An Issue
+## 1. Create An Issue
 
 Create a GitHub issue with a sparse title such as:
 
@@ -10,11 +10,7 @@ Create a GitHub issue with a sparse title such as:
 Filter pets by max adoption fee
 ```
 
-Add the label `openhands-build`, or comment:
-
-```text
-openhands-build
-```
+Add the label `openhands-build`.
 
 OpenHands should clarify the request inside the conversation, infer the smallest safe Petstore change, create a feature branch, run focused tests, and open a draft PR. The PR should document assumptions, acceptance criteria, evidence, and human review notes.
 
@@ -26,7 +22,7 @@ Show the generated open specification, usually:
 specs/github-issue-<number>/open-spec.md
 ```
 
-Call out how the sparse comment became:
+Call out how the sparse issue became:
 
 - assumptions
 - non-goals
@@ -46,21 +42,13 @@ Call out the human controls:
 
 ## 3. Trigger Code Review
 
-On the PR, add the label `openhands-review`, or comment:
-
-```text
-openhands-review
-```
+On the PR, add the label `openhands-review`.
 
 OpenHands should inspect the diff, apply the repo-local `sdlc-code-review` skill, classify risk, check Petstore contracts, and post a structured code review comment. It should not claim tests passed unless it ran them or verified evidence.
 
 ## 4. Trigger QA And Test Generation
 
-On the PR, add the label `openhands-qa`, or comment:
-
-```text
-openhands-qa
-```
+On the PR, add the label `openhands-qa`.
 
 OpenHands should run or add focused tests, exercise the changed behavior, map results back to the open spec, and include UI evidence when the static web app changed.
 
@@ -74,11 +62,7 @@ Show the normal GitHub review path:
 
 ## 6. Optional SRE Incident Flow
 
-Create an incident issue with label `openhands-incident`, or comment:
-
-```text
-openhands-incident
-```
+Create an incident issue and add the label `openhands-incident`.
 
 Use the sample symptom:
 
@@ -91,7 +75,7 @@ OpenHands should collect GCP evidence, summarize impact, identify whether remedi
 
 ## Four Skills To Show
 
-- `skills/sdlc-story`: comment to open specification to PR.
+- `skills/sdlc-story`: issue to open specification to PR.
 - `skills/sdlc-qa`: automated test suite and UI evidence.
 - `skills/sdlc-incident`: SRE incident triage with GCP evidence.
 - `skills/sdlc-code-review`: OpenHands `/codereview` plus Petstore-specific risk checks.

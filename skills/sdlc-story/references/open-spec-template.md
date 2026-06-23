@@ -1,6 +1,6 @@
 # Open Specification Template
 
-Use this template when `sdlc-story` converts a sparse GitHub issue or issue comment into implementation work.
+Use this template when `sdlc-story` converts a sparse GitHub issue into implementation work.
 
 Recommended path:
 

@@ -16,7 +16,7 @@ This skill is based on the automated QA demo pattern: understand the changed beh
 
 ## GitHub Boundaries
 
-- Trigger labels/comments: `openhands-qa`
+- Trigger label: `openhands-qa`
 - Status labels: `openhands:ready`, `openhands:in-progress`, `openhands:needs-human`, `openhands:done`
 - QA may push focused test/evidence commits to the PR branch when permitted.
 - QA does not approve, merge, deploy, or bypass CI.
