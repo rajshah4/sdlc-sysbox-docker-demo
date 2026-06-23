@@ -10,7 +10,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-LABELS_PATH = REPO_ROOT / "config" / "github-labels.json"
+LABELS_PATH = REPO_ROOT / ".github" / "labels.json"
 
 
 def run_gh(args: list[str], apply: bool) -> None:
@@ -60,4 +60,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

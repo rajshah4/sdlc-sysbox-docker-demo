@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Normalize a GitHub event fixture and report the OpenHands trigger."""
+"""Validate a label-only GitHub event fixture and report the OpenHands trigger."""
 
 from __future__ import annotations
 
@@ -8,25 +8,43 @@ import json
 import sys
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(REPO_ROOT))
-
-from providers.github.adapter import (  # noqa: E402
-    AUTOMATION_LABELS,
-    normalize_issue_comment,
-    normalize_issues_event,
-    normalize_pull_request_event,
-)
+AUTOMATION_LABELS = {
+    "openhands-build",
+    "openhands-review",
+    "openhands-qa",
+    "openhands-incident",
+}
 
 
-def normalize(payload: dict) -> object:
+def summarize(payload: dict) -> dict:
     event_name = payload.get("_event_name")
-    if event_name == "issue_comment":
-        return normalize_issue_comment(payload)
+    label = (payload.get("label") or {}).get("name", "")
+    repo = payload.get("repository") or {}
     if event_name == "issues":
-        return normalize_issues_event(payload)
+        issue = payload.get("issue") or {}
+        return {
+            "event_type": f"issues.{payload.get('action', 'unknown')}",
+            "repository": repo.get("full_name"),
+            "trigger": label,
+            "issue": {
+                "number": issue.get("number"),
+                "title": issue.get("title"),
+                "labels": [item.get("name") for item in issue.get("labels", [])],
+            },
+        }
     if event_name == "pull_request":
-        return normalize_pull_request_event(payload)
+        pr = payload.get("pull_request") or {}
+        return {
+            "event_type": f"pull_request.{payload.get('action', 'unknown')}",
+            "repository": repo.get("full_name"),
+            "trigger": label,
+            "pull_request": {
+                "number": pr.get("number"),
+                "title": pr.get("title"),
+                "source_branch": (pr.get("head") or {}).get("ref"),
+                "target_branch": (pr.get("base") or {}).get("ref"),
+            },
+        }
     raise ValueError(f"Unsupported fixture _event_name: {event_name}")
 
 
@@ -36,10 +54,9 @@ def main() -> int:
     args = parser.parse_args()
 
     payload = json.loads(Path(args.fixture).read_text(encoding="utf-8"))
-    event = normalize(payload)
-    data = event.to_dict()
+    data = summarize(payload)
     print(json.dumps(data, indent=2, sort_keys=True))
-    trigger = data["trigger"]["name"]
+    trigger = data["trigger"]
     if trigger not in AUTOMATION_LABELS:
         print(f"No automation trigger found: {trigger}", file=sys.stderr)
         return 1
@@ -49,4 +66,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

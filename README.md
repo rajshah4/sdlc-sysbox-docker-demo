@@ -18,8 +18,19 @@ The Azure DevOps demo remains preserved in its original repository. This repo is
 ```bash
 python3 -m pytest -q
 python3 scripts/preflight_github_demo.py --offline
-python3 scripts/simulate_github_event.py --fixture fixtures/github_issue_labeled_build.json
+python3 scripts/simulate_github_event.py --fixture tests/fixtures/github_issue_labeled_build.json
 ```
+
+## Repo Map
+
+| Folder | Purpose |
+| --- | --- |
+| `app/` | Small Petstore app, static UI, Cloud Run surface, and app tests. |
+| `automations/` | Four OpenHands prompt-preset automations registered in Rajistics. |
+| `skills/` | Four repo-local OpenHands skills with scripts and references. |
+| `scripts/` | Deterministic setup, registration, preflight, QA, and SRE helpers. |
+| `docs/` | Customer-facing setup, walkthrough, and validation notes. |
+| `.github/` | Issue/PR templates and label definitions; the live demo uses OpenHands labels, not GitHub Actions. |
 
 ## Register OpenHands Automations
 

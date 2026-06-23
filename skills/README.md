@@ -11,4 +11,4 @@ These four broad skills are intentionally version-controlled in a first-class `s
 
 Each skill keeps its own `SKILL.md` plus optional `references/` and `scripts/`. The scripts avoid unnecessary LLM calls and make the demo easier to inspect in customer conversations.
 
-The GitHub labels in `config/github-labels.json` are the human-controlled automation boundaries for the live demo.
+The GitHub labels in `.github/labels.json` are the human-controlled automation boundaries for the live demo.

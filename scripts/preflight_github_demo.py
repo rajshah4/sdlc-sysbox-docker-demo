@@ -12,7 +12,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 AUTOMATION_ROOT = REPO_ROOT / "automations" / "github"
-LABELS_PATH = REPO_ROOT / "config" / "github-labels.json"
+LABELS_PATH = REPO_ROOT / ".github" / "labels.json"
 SKILLS_ROOT = REPO_ROOT / "skills"
 REQUIRED_LABELS = {
     "openhands-build",

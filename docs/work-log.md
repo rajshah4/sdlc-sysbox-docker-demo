@@ -36,3 +36,4 @@
 - Did not re-trigger issue #1 after label-only registration because it is already complete and should not create duplicate work.
 - Simplified issue #1 so it reads like a normal product request and pruned the old test/acknowledgement comments, leaving the OpenHands completion summary and PR link.
 - Verified through the Rajistics API that the active automation set is enabled, label-only, and guarded against items already marked `openhands:done`.
+- Simplified the tracked repo layout for customer-facing use by removing the temporary provider abstraction, top-level event fixtures, and duplicate integrations samples. Test fixtures now live under `tests/fixtures`.

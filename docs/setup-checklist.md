@@ -8,7 +8,7 @@ Use this checklist to configure the GitHub-native SDLC Automation Demo. Do not p
 - Self-hosted OpenHands GitHub App from the Rajistics Replicated instance is installed on the demo repo.
 - If the repo was created after the app was first installed, refresh the GitHub App installation and explicitly include this repo.
 - Public OpenHands GitHub App is not also installed on the same repo.
-- Labels from `config/github-labels.json` are present.
+- Labels from `.github/labels.json` are present.
 - GitHub App permissions allow reading issues/PRs, posting comments, creating branches, creating PRs, reading checks, and updating labels.
 ## OpenHands / Rajistics
 

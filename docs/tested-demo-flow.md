@@ -7,7 +7,7 @@ Last updated: 2026-06-23 UTC.
 ```bash
 python3 -m pytest -q
 python3 scripts/preflight_github_demo.py --offline
-python3 scripts/simulate_github_event.py --fixture fixtures/github_issue_labeled_build.json
+python3 scripts/simulate_github_event.py --fixture tests/fixtures/github_issue_labeled_build.json
 python3 skills/sdlc-story/scripts/validate_open_spec.py skills/sdlc-story/references/open-spec-template.md
 ```
 

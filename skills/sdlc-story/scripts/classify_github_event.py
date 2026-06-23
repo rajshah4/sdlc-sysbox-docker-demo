@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Classify a GitHub webhook fixture using the demo provider adapter."""
+"""Classify a label-only GitHub webhook fixture for the demo."""
 
 from __future__ import annotations
 
@@ -8,28 +8,42 @@ import sys
 from pathlib import Path
 
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(REPO_ROOT))
+AUTOMATION_LABELS = {
+    "openhands-build",
+    "openhands-review",
+    "openhands-qa",
+    "openhands-incident",
+}
 
-from providers.github.adapter import (  # noqa: E402
-    normalize_issue_comment,
-    normalize_issues_event,
-    normalize_pull_request_event,
-)
+
+def summarize(payload: dict) -> dict:
+    event_name = payload.get("_event_name")
+    label = (payload.get("label") or {}).get("name", "")
+    repo = payload.get("repository") or {}
+    if event_name == "issues":
+        issue = payload.get("issue") or {}
+        return {
+            "event_type": f"issues.{payload.get('action', 'unknown')}",
+            "repository": repo.get("full_name"),
+            "trigger": label if label in AUTOMATION_LABELS else "unknown",
+            "issue_number": issue.get("number"),
+            "issue_title": issue.get("title"),
+        }
+    if event_name == "pull_request":
+        pr = payload.get("pull_request") or {}
+        return {
+            "event_type": f"pull_request.{payload.get('action', 'unknown')}",
+            "repository": repo.get("full_name"),
+            "trigger": label if label in AUTOMATION_LABELS else "unknown",
+            "pull_request_number": pr.get("number"),
+            "pull_request_title": pr.get("title"),
+        }
+    raise SystemExit(f"Unsupported _event_name: {event_name}")
 
 
 def main() -> int:
     payload = json.load(sys.stdin)
-    event_name = payload.get("_event_name")
-    if event_name == "issue_comment":
-        event = normalize_issue_comment(payload)
-    elif event_name == "issues":
-        event = normalize_issues_event(payload)
-    elif event_name == "pull_request":
-        event = normalize_pull_request_event(payload)
-    else:
-        raise SystemExit(f"Unsupported _event_name: {event_name}")
-    print(json.dumps(event.to_dict(), indent=2, sort_keys=True))
+    print(json.dumps(summarize(payload), indent=2, sort_keys=True))
     return 0
 
 
