@@ -14,6 +14,7 @@ Use this reference when a PR changes `app/web/` or a backend change affects user
 5. If the UI depends on a live backend not available in the test environment, document the missing service and test the boundary that is available.
 
 Do not install browsers or Python packages during the demo.
+Do not install Playwright inside a timed automation run. For customer demos, use preinstalled Playwright/BrowserToolSet or fall back and say browser evidence was not collected.
 
 ## Scenario Inference
 
@@ -74,6 +75,29 @@ ffmpeg -y -i input.webm -vf "fps=8,scale=960:-1:flags=lanczos" output.gif
    `docs/demo-artifacts/pr<NUMBER>/` when they help the customer see the result
    in GitHub.
 8. Link the report and embed the GIF in the PR comment.
+
+The repo includes a baseline example:
+
+```bash
+python3 skills/sdlc-qa/scripts/with_server.py \
+  --server "python3 -m http.server 4173 --directory app/web" \
+  --port 4173 \
+  -- python3 skills/sdlc-qa/scripts/run_playwright_ui_demo.py \
+     --url http://localhost:4173 \
+     --artifact-dir /tmp/sdlc-petstore-playwright/catalog-search
+```
+
+If Playwright is installed outside this repo, pass its `node_modules` directory:
+
+```bash
+python3 skills/sdlc-qa/scripts/with_server.py \
+  --server "python3 -m http.server 4173 --directory app/web" \
+  --port 4173 \
+  -- python3 skills/sdlc-qa/scripts/run_playwright_ui_demo.py \
+     --url http://localhost:4173 \
+     --artifact-dir /tmp/sdlc-petstore-playwright/catalog-search \
+     --node-modules /path/to/node_modules
+```
 
 ## Static Petstore Checks
 

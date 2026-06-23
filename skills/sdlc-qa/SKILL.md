@@ -35,6 +35,7 @@ This skill is based on the automated QA demo pattern: understand the changed beh
 8. Report honestly when a dependency, browser, credential, or service is missing.
 
 Do not run `pip install` or add new QA dependencies during the demo. If a browser or package is missing, fall back to dependency-free smoke checks and document the gap.
+Do not install Playwright inside a timed live automation run. Use it when the runtime already provides Playwright or BrowserToolSet. The checked-in example at `app/web/tests/catalog-search.playwright.mjs` shows the expected browser-evidence shape.
 
 ## Diff-Driven UI Inference
 
@@ -86,6 +87,7 @@ python3 -m pytest -q
 python3 -m http.server 4173 --directory app/web
 python3 skills/sdlc-qa/scripts/static_ui_smoke.py --url http://localhost:4173
 python3 skills/sdlc-qa/scripts/with_server.py --server "python3 -m http.server 4173 --directory app/web" --port 4173 -- python3 skills/sdlc-qa/scripts/static_ui_smoke.py --url http://localhost:4173
+python3 skills/sdlc-qa/scripts/with_server.py --server "python3 -m http.server 4173 --directory app/web" --port 4173 -- python3 skills/sdlc-qa/scripts/run_playwright_ui_demo.py --url http://localhost:4173 --artifact-dir /tmp/sdlc-petstore-playwright/catalog-search
 ```
 
 ## Test Generation Rules

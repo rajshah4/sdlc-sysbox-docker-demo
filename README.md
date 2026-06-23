@@ -41,7 +41,7 @@ one bounded automation, then posts evidence back where the team already works.
 
 - A sparse issue becomes a PR with an implementation branch and visible OpenSpec-style proposal/spec/design/task artifacts.
 - A PR receives an automated review comment rather than a silent background score.
-- QA output lands on the PR with concrete test files and command results.
+- QA output lands on the PR with concrete test files and command results. The repo also includes a Playwright browser-evidence example with screenshot, GIF, video, and report generation.
 - An incident issue receives an evidence-first triage response; if cloud context
   is unavailable, the automation should say so and mark the item for humans.
 - Status labels such as `openhands:in-progress`, `openhands:needs-human`, and
@@ -60,6 +60,7 @@ repo-local knowledge, not a custom agent runtime.
 | Deterministic scripts | `scripts/` | Preflight, label setup, fixture simulation, Petstore checks, and GCP helpers run before broader model reasoning where possible. |
 | GitHub templates and labels | `.github/` | Issues, PRs, and labels define the human approval boundaries. |
 | Petstore app | `app/` | A small API/UI surface gives the automations realistic code, tests, and incident paths to work on. |
+| Playwright UI evidence | `app/web/tests/` and `docs/demo-artifacts/` | Browser QA example that records video, creates a GIF preview, captures a screenshot, and writes a report when Playwright is available. |
 
 Cost and security are part of the demo design: event-driven labels avoid
 unnecessary LLM calls, preflight scripts catch configuration issues without

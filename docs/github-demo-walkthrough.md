@@ -57,6 +57,14 @@ On the PR, add the label `openhands-qa`.
 
 OpenHands should run or add focused tests, exercise the changed behavior, map results back to the OpenSpec-style change artifacts, and include UI evidence when the static web app changed.
 
+For a concrete browser-evidence example, show:
+
+- `app/web/tests/catalog-search.playwright.mjs`
+- `docs/demo-artifacts/playwright-catalog-search/qa-report.md`
+- `docs/demo-artifacts/playwright-catalog-search/catalog-search.gif`
+
+If the remote runtime lacks Playwright or BrowserToolSet, the automation should say that and fall back to deterministic checks rather than claiming browser coverage.
+
 ## 5. Human Review And Merge
 
 Show the normal GitHub review path:

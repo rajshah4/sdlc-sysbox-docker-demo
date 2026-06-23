@@ -15,7 +15,7 @@ This automation runs when a human adds the `openhands-qa` label to a GitHub PR.
 5. Add or update focused tests when coverage is missing.
 6. Run focused validation before broad validation.
 7. For UI-visible changes, infer browser scenarios from changed controls, labels, selectors, validation text, rendered data, and product rules. Do not require the PR author to list exact browser steps.
-8. For UI-visible changes, prefer Playwright or BrowserToolSet. Generate a maintainable browser smoke/spec when missing, run the static UI, capture screenshot/video, convert video to GIF when `ffmpeg` is available, and write a concise QA report. Commit useful generated specs and lightweight demo artifacts to the PR branch when permitted.
+8. For UI-visible changes, prefer Playwright or BrowserToolSet. Use `app/web/tests/catalog-search.playwright.mjs` as the baseline example for the expected artifact shape. Generate a maintainable browser smoke/spec when missing, run the static UI, capture screenshot/video, convert video to GIF when `ffmpeg` is available, and write a concise QA report. Commit useful generated specs and lightweight demo artifacts to the PR branch when permitted.
 9. Fall back to dependency-free DOM/static checks only when Playwright/browser execution is unavailable, and clearly label that as fallback evidence.
 10. Post a QA report and push any test/evidence commits to the PR branch when permitted.
 
@@ -44,3 +44,4 @@ Humans decide whether QA evidence is sufficient and whether to merge. OpenHands 
 ## Cost And Security Notes
 
 Use deterministic tests and scripts before spending exploratory LLM calls. For expensive UI QA, keep the scope to changed behavior. Do not run `pip install` during the demo; use existing dependencies or report the gap. Secrets stay out of the repo and out of screenshots/logs.
+Do not install Playwright during the timed automation run. Use preinstalled Playwright/BrowserToolSet when available; otherwise report the missing browser capability and run fallback checks.
