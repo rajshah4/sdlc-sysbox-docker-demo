@@ -24,11 +24,24 @@ REQUIRED_LABELS = {
     "openhands:done",
 }
 REQUIRED_ENV = [
-    "OPENHANDS_HOST_GITHUB",
-    "OPENHANDS_API_KEY_GITHUB",
-    "GITHUB_DEMO_REPOSITORY",
-    "GITHUB_DEMO_REPO_URL",
+    ("OPENHANDS_HOST_GITHUB", "OPENHANDS_HOST"),
+    ("OPENHANDS_API_KEY_GITHUB", "OPENHANDS_API_KEY"),
+    ("GITHUB_DEMO_REPOSITORY",),
+    ("GITHUB_DEMO_REPO_URL",),
 ]
+
+
+def load_env_file(path: Path) -> None:
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        if not key or not key.replace("_", "").isalnum():
+            continue
+        value = value.strip().strip("'").strip('"')
+        os.environ.setdefault(key, value)
 
 
 def load_json(path: Path) -> object:
@@ -95,7 +108,11 @@ def validate_env(offline: bool, failures: list[str]) -> None:
     if offline:
         ok("offline mode skips secret/env presence checks")
         return
-    missing = [name for name in REQUIRED_ENV if not os.getenv(name)]
+    missing = [
+        " or ".join(names)
+        for names in REQUIRED_ENV
+        if not any(os.getenv(name) for name in names)
+    ]
     if missing:
         fail(f"missing required env names: {', '.join(missing)}", failures)
     else:
@@ -105,7 +122,17 @@ def validate_env(offline: bool, failures: list[str]) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--offline", action="store_true", help="skip live env/API checks")
+    parser.add_argument("--env-file", type=Path, help="load KEY=value entries without printing values")
+    parser.add_argument("--repository", help="set GITHUB_DEMO_REPOSITORY for this run")
+    parser.add_argument("--repo-url", help="set GITHUB_DEMO_REPO_URL for this run")
     args = parser.parse_args()
+
+    if args.env_file:
+        load_env_file(args.env_file)
+    if args.repository:
+        os.environ["GITHUB_DEMO_REPOSITORY"] = args.repository
+    if args.repo_url:
+        os.environ["GITHUB_DEMO_REPO_URL"] = args.repo_url
 
     failures: list[str] = []
     validate_labels(failures)

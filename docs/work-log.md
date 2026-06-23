@@ -13,3 +13,9 @@
 - Validated the GitHub label path with the deterministic `OpenHands Label Demo` workflow. Two work-cell/status label events initially ran, which exposed an important retrigger risk before OpenHands automation registration.
 - Fixed the GitHub Actions and OpenHands preset filters so only the four work-cell labels (`openhands-build`, `openhands-review`, `openhands-qa`, `openhands-incident`) trigger work. Status labels such as `openhands:ready` no longer retrigger automations.
 - Re-tested the issue-comment path after the guard fix; run `27996297265` completed successfully and posted a single acknowledgement comment.
+- Registered the four GitHub prompt-preset OpenHands automations against the configured OpenHands instance:
+  - build: `e1fdf4a7-8735-4b58-bc76-eb1ff937aa6e`
+  - incident: `91134259-a0f4-41bb-adf9-b1484bd013e7`
+  - QA: `33fada53-9c8f-4151-bf61-83486a947121`
+  - review: `64bb781d-81f7-415e-b7f6-fa7134b477ec`
+- Posted a post-registration `openhands-build` comment on issue #1. GitHub Actions run `27996464141` passed, but the OpenHands build automation run list remained empty. Next required setup is to install or refresh the self-hosted OpenHands GitHub App for this new private repo.

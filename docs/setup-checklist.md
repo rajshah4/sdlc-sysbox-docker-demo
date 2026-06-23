@@ -6,6 +6,7 @@ Use this checklist to configure the GitHub-native SDLC Automation Demo. Do not p
 
 - Repository created for this demo.
 - Self-hosted OpenHands GitHub App from the Rajistics Replicated instance is installed on the demo repo.
+- If the repo was created after the app was first installed, refresh the GitHub App installation and explicitly include this repo.
 - Public OpenHands GitHub App is not also installed on the same repo.
 - Labels from `config/github-labels.json` are present.
 - GitHub App permissions allow reading issues/PRs, posting comments, creating branches, creating PRs, and updating labels.
@@ -49,4 +50,3 @@ Use this checklist to configure the GitHub-native SDLC Automation Demo. Do not p
 - Different LLM profiles can be mapped by stage: review, QA, build, incident, and critic.
 - Secrets stay in OpenHands secret store, GitHub Actions secrets, or local `.env`.
 - Humans approve PRs, reviews, merges, deployments, and production-facing fixes.
-

@@ -17,6 +17,19 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 AUTOMATION_ROOT = REPO_ROOT / "automations" / "github"
 
 
+def load_env_file(path: Path) -> None:
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        if not key or not key.replace("_", "").isalnum():
+            continue
+        value = value.strip().strip("'").strip('"')
+        os.environ.setdefault(key, value)
+
+
 def expand_env(value: Any) -> Any:
     if isinstance(value, str):
         return os.path.expandvars(value)
@@ -70,7 +83,17 @@ def main() -> int:
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--dry-run", action="store_true", help="print requests without creating automations")
     mode.add_argument("--apply", action="store_true", help="create automations through OpenHands API")
+    parser.add_argument("--env-file", type=Path, help="load KEY=value entries without printing values")
+    parser.add_argument("--repository", help="set GITHUB_DEMO_REPOSITORY for this run")
+    parser.add_argument("--repo-url", help="set GITHUB_DEMO_REPO_URL for this run")
     args = parser.parse_args()
+
+    if args.env_file:
+        load_env_file(args.env_file)
+    if args.repository:
+        os.environ["GITHUB_DEMO_REPOSITORY"] = args.repository
+    if args.repo_url:
+        os.environ["GITHUB_DEMO_REPO_URL"] = args.repo_url
 
     dry_run = not args.apply
     host = os.getenv("OPENHANDS_HOST_GITHUB") or os.getenv("OPENHANDS_HOST") or "https://app.all-hands.dev"
@@ -98,4 +121,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
