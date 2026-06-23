@@ -43,3 +43,10 @@
   - QA: `77343499-1f2e-4d10-bb04-9292f112046c`
   - review: `2cc7de0f-2d35-4024-866e-d1c6985c3d1d`
 - Posted a safe `openhands-build` issue comment after pushing the richer skills. GitHub Actions run `27997482066` passed and posted the deterministic acknowledgement, but the new OpenHands build automation run list remained empty. The remaining live setup item is still refreshing/installing the self-hosted GitHub App on this new private repo.
+- Disabled the four automations that had been registered with the generic API key path and re-registered the four prompt presets with the Rajistics Replicated API key explicitly:
+  - build: `0ce7add1-fbba-40ef-bc0d-bef77f1bd108`
+  - incident: `31c15181-2c7a-446e-8156-232808e6d1fc`
+  - QA: `d6f6e6f9-202c-45cc-afcc-69cf5379fb16`
+  - review: `a8605df3-d80a-487c-bf11-1932f81a2c0c`
+  - Verified through the Rajistics Replicated API that all four are enabled.
+- Posted a fresh safe `openhands-build` issue comment using the Rajistics-visible automation set. OpenHands run `f84671ac-33b7-43d8-a0e4-3532fb180263` completed, moved issue #1 to `openhands:done`, posted an implementation summary, and opened PR #2 for the max adoption fee filter.

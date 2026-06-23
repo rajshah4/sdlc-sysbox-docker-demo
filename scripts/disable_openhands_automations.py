@@ -52,10 +52,19 @@ def main() -> int:
     if args.env_file:
         load_env_file(args.env_file)
 
-    host = os.getenv("OPENHANDS_HOST_GITHUB") or os.getenv("OPENHANDS_HOST") or "https://app.all-hands.dev"
-    api_key = os.getenv("OPENHANDS_API_KEY_GITHUB") or os.getenv("OPENHANDS_API_KEY")
+    host = (
+        os.getenv("OPENHANDS_HOST_GITHUB")
+        or os.getenv("OPENHANDS_HOST_RAJISTICS")
+        or os.getenv("OPENHANDS_HOST")
+        or "https://app.replicated.rajistics.com"
+    )
+    api_key = (
+        os.getenv("OPENHANDS_API_KEY_GITHUB")
+        or os.getenv("OPENHANDS_API_KEY_RAJISTICS")
+        or os.getenv("OPENHANDS_API_KEY")
+    )
     if not api_key:
-        raise SystemExit("OPENHANDS_API_KEY_GITHUB or OPENHANDS_API_KEY is required")
+        raise SystemExit("OPENHANDS_API_KEY_GITHUB, OPENHANDS_API_KEY_RAJISTICS, or OPENHANDS_API_KEY is required")
 
     enabled = bool(args.enable)
     for automation_id in args.automation_ids:
@@ -67,4 +76,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

@@ -96,8 +96,17 @@ def main() -> int:
         os.environ["GITHUB_DEMO_REPO_URL"] = args.repo_url
 
     dry_run = not args.apply
-    host = os.getenv("OPENHANDS_HOST_GITHUB") or os.getenv("OPENHANDS_HOST") or "https://app.all-hands.dev"
-    api_key = os.getenv("OPENHANDS_API_KEY_GITHUB") or os.getenv("OPENHANDS_API_KEY")
+    host = (
+        os.getenv("OPENHANDS_HOST_GITHUB")
+        or os.getenv("OPENHANDS_HOST_RAJISTICS")
+        or os.getenv("OPENHANDS_HOST")
+        or "https://app.replicated.rajistics.com"
+    )
+    api_key = (
+        os.getenv("OPENHANDS_API_KEY_GITHUB")
+        or os.getenv("OPENHANDS_API_KEY_RAJISTICS")
+        or os.getenv("OPENHANDS_API_KEY")
+    )
 
     results: list[dict[str, Any]] = []
     for spec_path in automation_specs():
@@ -106,7 +115,10 @@ def main() -> int:
             print(json.dumps({"spec": str(spec_path.relative_to(REPO_ROOT)), "request": payload}, indent=2))
             continue
         if not api_key:
-            print("OPENHANDS_API_KEY_GITHUB or OPENHANDS_API_KEY is required for --apply", file=sys.stderr)
+            print(
+                "OPENHANDS_API_KEY_GITHUB, OPENHANDS_API_KEY_RAJISTICS, or OPENHANDS_API_KEY is required for --apply",
+                file=sys.stderr,
+            )
             return 2
         result = post_prompt_preset(host, api_key, payload)
         results.append({"spec": str(spec_path.relative_to(REPO_ROOT)), "result": result})

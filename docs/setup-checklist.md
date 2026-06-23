@@ -17,7 +17,7 @@ Use this checklist to configure the GitHub-native SDLC Automation Demo. Do not p
 ## OpenHands / Rajistics
 
 - `OPENHANDS_HOST_GITHUB` points at the self-hosted app URL, usually `https://app.<base_domain>`.
-- `OPENHANDS_API_KEY_GITHUB` is available locally for registration and in the OpenHands secret store for automations.
+- `OPENHANDS_API_KEY_GITHUB` is available locally for registration and in the OpenHands secret store for automations. For the Rajistics instance, `OPENHANDS_API_KEY_RAJISTICS` is an accepted fallback when the GitHub-specific key is intentionally blank.
 - For the Rajistics Replicated instance, verify the app URL, GitHub App slug, client ID, app ID, webhook secret, and private key are configured in the Replicated admin console.
 - GitHub sign-in works in OpenHands.
 - Repo search works in OpenHands.
