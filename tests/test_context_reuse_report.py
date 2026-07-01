@@ -19,7 +19,7 @@ def test_context_reuse_report_includes_all_memory_sources() -> None:
     assert "Existing Code Or New PR?" in report
     assert "Cited Handoff Material" in report
     assert "do not open a code PR" in report
-    assert 'assert "Nova" not in {pet.name for pet in pets}' in report
+    assert "test_search_pets_can_find_pending_pets_when_requested" in report
     assert "app/petstore_app/catalog.py" in report
     assert "app/web/app.js" in report
     assert "AGENTS.md" in report

@@ -10,7 +10,6 @@ AUTOMATION_LABELS = {
     "openhands-build",
     "openhands-review",
     "openhands-qa",
-    "openhands-incident",
 }
 
 
@@ -45,14 +44,6 @@ def test_pull_request_label_qa_fixture_is_pr_event() -> None:
     assert payload["label"]["name"] == "openhands-qa"
     assert payload["pull_request"]["head"]["ref"] == "openhands/issue-7-pending-pet-visibility"
     assert payload["pull_request"]["base"]["ref"] == "main"
-
-
-def test_issue_label_incident_fixture_is_incident_event() -> None:
-    payload = load_fixture("github_issue_labeled_incident.json")
-
-    assert payload["_event_name"] == "issues"
-    assert payload["label"]["name"] == "openhands-incident"
-    assert "type:incident" in {label["name"] for label in payload["issue"]["labels"]}
 
 
 def test_all_fixtures_use_known_automation_labels() -> None:

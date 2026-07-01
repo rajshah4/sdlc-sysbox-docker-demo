@@ -29,7 +29,6 @@ Examples:
 - adoption validation changes
 - GitHub label/comment trigger filters
 - OpenHands prompt changes that could create loops
-- incident scripts that alter eligibility checks
 
 Review expectation:
 
@@ -46,10 +45,10 @@ Examples:
 
 - secret handling
 - GitHub App permissions
-- cloud remediation, deployment, IAM, or billing
+- deployment, IAM, or billing
 - new dependencies or package-manager changes
 - workflow permissions broadening
-- scripts that mutate cloud resources without a deterministic safety gate
+- scripts that mutate external services without a deterministic safety gate
 
 Review expectation:
 

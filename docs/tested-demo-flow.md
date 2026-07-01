@@ -36,7 +36,6 @@ the workflow boundary.
 | GitHub build | `automations/github/openhands-build/` | `issues.labeled` |
 | GitHub QA | `automations/github/openhands-qa/` | `pull_request.labeled` or `issues.labeled` |
 | GitHub review | `automations/github/openhands-review/` | `pull_request.labeled` |
-| GitHub incident | `automations/github/openhands-incident/` | `issues.labeled` |
 
 Register the packages with:
 
@@ -113,11 +112,10 @@ Humans still own:
 - PR review
 - merge
 - deployment
-- production-facing remediation
 - risky follow-up decisions
 
 ## Not Part Of The Public Demo
 
 - Exploratory timing notes are kept locally.
-- SRE incident remediation remains report-only unless the bounded safe-remediation
-  checks pass and a human explicitly chooses that path.
+- Experimental automation variants stay local until they are stable enough for
+  customers to inspect.

@@ -13,7 +13,6 @@ AUTOMATION_LABELS = {
     "openhands-build",
     "openhands-review",
     "openhands-qa",
-    "openhands-incident",
 }
 
 

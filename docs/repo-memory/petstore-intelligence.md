@@ -8,7 +8,7 @@ This is durable repo memory for the SDLC Automation Demo. Agents should read thi
 - Pending pets can be shown only when explicitly requested and cannot be adopted.
 - Money is represented as integer cents.
 - UI-visible changes need UI evidence, not only backend tests.
-- Humans approve scope, PRs, merges, deployments, and production-facing fixes.
+- Humans approve scope, PRs, merges, deployments, and risky follow-up decisions.
 
 ## App Map
 
@@ -16,7 +16,6 @@ This is durable repo memory for the SDLC Automation Demo. Agents should read thi
 | --- | --- | --- |
 | Catalog behavior | `app/petstore_app/catalog.py`, `app/tests/test_pet_catalog.py` | Search filters, availability rules, fee and age fields. |
 | Adoption behavior | `app/petstore_app/adoptions.py`, `app/tests/test_adoptions.py` | Adoption validation and pending-pet safety. |
-| Cloud Run incident surface | `app/petstore_app/cloud_run_app.py`, `app/tests/test_cloud_run_app.py` | Runtime incident mode and `/api/status`. |
 | Static UI | `app/web/`, `app/web/tests/` | Browser evidence path for UI-visible changes. |
 | OpenSpec-style changes | `openspec/changes/` | Generated proposal/design/tasks/spec artifacts for story-to-PR work. |
 

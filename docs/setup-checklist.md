@@ -96,7 +96,6 @@ Repo-local skills are loaded from `skills/`:
 - `skills/sdlc-context-sidekick`
 - `skills/sdlc-sidekick-launcher`
 - `skills/sdlc-qa`
-- `skills/sdlc-incident`
 - `skills/sdlc-code-review`
 
 The automation prompts should stay short. Demo-specific knowledge, evidence

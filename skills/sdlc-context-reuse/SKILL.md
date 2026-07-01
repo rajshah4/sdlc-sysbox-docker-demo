@@ -18,8 +18,8 @@ The customer-facing story is: a low-cost scout agent gathers reusable context fi
 ## Context Source Order
 
 1. `AGENTS.md` for durable repo rules, commands, product constraints, and human gates.
-2. Repo-local skills for procedural memory: `sdlc-story`, `sdlc-qa`, `sdlc-code-review`, and `sdlc-incident`.
-3. Existing polished evidence, especially `docs/qa-reports/`, incident references, and curated repo memory.
+2. Repo-local skills for procedural memory: `sdlc-story`, `sdlc-qa`, and `sdlc-code-review`.
+3. Existing polished evidence, especially `docs/qa-reports/` and curated repo memory.
 4. Targeted GitHub repo search for the files and tests relevant to the trigger.
 5. Previous agent-run lessons in `docs/repo-memory/previous-agent-runs.md`.
 
@@ -35,7 +35,7 @@ python3 scripts/build_context_reuse_report.py \
   --output docs/context-reuse/latest-context-reuse-report.md
 ```
 
-4. Use the report as the handoff from the scout phase to build, QA, review, or incident work.
+4. Use the report as the handoff from the scout phase to build, QA, or review work.
 5. Update durable memory only when you learned a reusable fact. Keep issue-specific details in PRs, issue comments, or context reports.
 
 ## Model Routing Policy
@@ -43,7 +43,7 @@ python3 scripts/build_context_reuse_report.py \
 - Use no LLM or the lowest-cost model for deterministic parsing, label classification, file search, and log summarization.
 - Use a low-cost model for the scout report when summarization is needed.
 - Use a coding-capable model only for implementation or plan repair.
-- Escalate to a stronger model for high-risk production, security, broad architecture, or ambiguous remediation decisions.
+- Escalate to a stronger model for security, broad architecture, or ambiguous product decisions.
 - Prefer exact command output and checked-in evidence over generating a fresh explanation from scratch.
 
 ## Report Requirements

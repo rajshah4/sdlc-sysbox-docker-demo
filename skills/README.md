@@ -10,7 +10,6 @@ about hidden agent folders.
 | `sdlc-context-sidekick` | Optional read-only context scout for Jira-to-PR demos; finds likely docs, logs, and repo files before the story skill edits anything. |
 | `sdlc-sidekick-launcher` | Starts the visible `sidekick-v2` Jira-to-PR launcher flow without exposing shell details in the automation prompt. |
 | `sdlc-qa` | Builds out automated QA evidence, including API tests and UI smoke/browser evidence where applicable. |
-| `sdlc-incident` | Performs SRE incident triage with Cloud Run/Cloud Logging evidence and bounded remediation rules. |
 | `sdlc-code-review` | Layers Petstore-specific correctness, risk, and supply-chain checks onto OpenHands `/codereview`. |
 
 Each skill keeps its own `SKILL.md` plus optional `references/` and `scripts/`. The scripts avoid unnecessary LLM calls and make the demo easier to inspect in customer conversations.

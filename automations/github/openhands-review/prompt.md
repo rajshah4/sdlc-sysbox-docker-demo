@@ -8,7 +8,7 @@ This automation runs when a human adds the `openhands-review` label to a GitHub 
 
 ## Context Reuse Pass
 
-Before broad exploration, use `skills/sdlc-context-reuse/SKILL.md` and the repo memory in `docs/repo-memory/`. Load `AGENTS.md`, the relevant SDLC skill, prior QA/incident evidence, targeted repo search, and previous OpenHands run memory before spending tokens on fresh discovery. When useful, run `python3 scripts/build_context_reuse_report.py` and summarize what context was reused.
+Before broad exploration, use `skills/sdlc-context-reuse/SKILL.md` and the repo memory in `docs/repo-memory/`. Load `AGENTS.md`, the relevant SDLC skill, prior QA evidence, targeted repo search, and previous OpenHands run memory before spending tokens on fresh discovery. When useful, run `python3 scripts/build_context_reuse_report.py` and summarize what context was reused.
 
 Use a lower-cost scout/model profile for context gathering when the runtime supports model routing. Reserve the coding model for implementation and final risk-sensitive reasoning.
 
@@ -17,7 +17,7 @@ Use a lower-cost scout/model profile for context gathering when the runtime supp
 1. Read the PR title, body, diff, changed files, comments, and linked issue when available.
 2. Use the official OpenHands `/codereview` pattern and `skills/sdlc-code-review/SKILL.md`.
 3. Prioritize concrete bugs, regressions, missing tests, security risks, and broken product assumptions.
-4. Check Petstore-specific rules: pending pets, default search behavior, integer-cent money, adoption validation, UI evidence, and incident remediation gates.
+4. Check Petstore-specific rules: pending pets, default search behavior, integer-cent money, adoption validation, and UI evidence.
 5. Use the risk and supply-chain references in `skills/sdlc-code-review/references/` when relevant.
 6. Post one structured GitHub PR review or PR comment.
 

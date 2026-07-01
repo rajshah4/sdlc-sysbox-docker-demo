@@ -12,8 +12,7 @@ CHECKS = [
     "User-visible behavior has tests and QA evidence.",
     "Automation status-label changes cannot retrigger work.",
     "Open spec acceptance criteria map to code and tests.",
-    "Incident remediation requires Cloud Logging evidence and safe_to_remediate=true.",
-    "Dependency, workflow, Dockerfile, and installer changes get supply-chain review.",
+    "Dependency, workflow, and installer changes get supply-chain review.",
 ]
 
 

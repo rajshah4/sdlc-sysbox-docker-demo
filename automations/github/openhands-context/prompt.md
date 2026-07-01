@@ -8,7 +8,7 @@ A human added the `openhands-context` label to a GitHub issue. Treat the issue a
 
 ## What You Do
 
-Use `skills/sdlc-context-reuse/SKILL.md` to build a cost-aware issue brief before any broad implementation work. Load context in this order: `AGENTS.md`, repo-local skills, existing logs and QA/incident evidence, targeted GitHub repo search, and previous OpenHands run memory.
+Use `skills/sdlc-context-reuse/SKILL.md` to build a cost-aware issue brief before any broad implementation work. Load context in this order: `AGENTS.md`, repo-local skills, existing logs and QA evidence, targeted GitHub repo search, and previous OpenHands run memory.
 
 When local tools are available, run:
 
@@ -27,7 +27,7 @@ Post a concise issue comment with:
 - likely existing files/tests to inspect
 - whether the next agent should open a PR or first prove existing code already handles the request
 - the minimum raw material needed for a future PR, such as specific file paths, short source snippets, and test names
-- recommended model tier for scout, implementation, QA, review, and incident phases
+- recommended model tier for scout, implementation, QA, and review phases
 - a full-report link to `https://github.com/rajshah4/sdlc-automation-github-demo/blob/main/docs/context-reuse/latest-context-reuse-report.md`, or a PR link when a fresh report was committed
 
 Do not post a search transcript. It is fine to say where the scout learned something, but keep citations compact and tied to the decision: issue source, repo memory, skill, evidence file, or specific code/test path.
@@ -38,8 +38,8 @@ For GitHub REST writeback, use the configured `GITHUB_TOKEN` secret; do not use 
 
 ## Human Control
 
-Humans decide whether to proceed to `openhands-build`, `openhands-review`, `openhands-qa`, or `openhands-incident`. This work cell does not merge, deploy, mutate secrets, change branch protection, or perform production actions.
+Humans decide whether to proceed to `openhands-build`, `openhands-review`, or `openhands-qa`. This work cell does not merge, deploy, mutate secrets, change branch protection, or perform production actions.
 
 ## Cost And Security Notes
 
-This is the low-cost scout pass. Prefer deterministic scripts and a lower-cost model profile for summarization. Reserve stronger models for coding, plan repair, security-sensitive review, or production-risk decisions. Never print secrets from repo settings, local `.env`, logs, screenshots, or runtime configuration.
+This is the low-cost scout pass. Prefer deterministic scripts and a lower-cost model profile for summarization. Reserve stronger models for coding, plan repair, security-sensitive review, or broad architecture decisions. Never print secrets from repo settings, local `.env`, logs, screenshots, or runtime configuration.

@@ -12,7 +12,7 @@ OpenHands should produce a context reuse report that shows:
 
 - `AGENTS.md` durable repo memory
 - selected repo-local skills
-- existing logs, QA reports, and incident references
+- existing logs and QA reports
 - targeted GitHub repo search results
 - previous OpenHands conversations or run records
 - recommended lower-cost scout and stronger coding/review model routing
@@ -110,22 +110,9 @@ Show the normal GitHub review path:
 - humans resolve findings or ask follow-up questions
 - humans approve and merge only when ready
 
-## 7. Optional SRE Incident Flow
-
-Create an incident issue and add the label `openhands-incident`.
-
-Use the sample symptom:
-
-```text
-The Petstore website is showing pending pets in the available-pets experience.
-Please inspect GCP logs and propose the safest fix.
-```
-
-OpenHands should collect GCP evidence, summarize impact, identify whether remediation is safe, and either post an operator report or open a small fix PR. It must not mutate cloud resources unless the bounded safe-remediation check passes and humans allow the demo remediation path.
-
-## Four Skills To Show
+## Skills To Show
 
 - `skills/sdlc-story`: issue to OpenSpec-style change artifacts to PR.
 - `skills/sdlc-qa`: automated test suite and UI evidence.
-- `skills/sdlc-incident`: SRE incident triage with GCP evidence.
 - `skills/sdlc-code-review`: OpenHands `/codereview` plus Petstore-specific risk checks.
+- `skills/sdlc-context-sidekick` and `skills/sdlc-sidekick-launcher`: optional visible multi-conversation context search for Jira demos.

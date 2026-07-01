@@ -218,7 +218,7 @@ def search_terms(trigger: TriggerContext) -> list[str]:
         )
     if not domain_terms:
         domain_terms.extend(["catalog", "search", "adoption", "status", "available", "test"])
-    domain_terms.extend(["qa", "incident"])
+    domain_terms.append("qa")
     merged: list[str] = []
     for term in domain_terms + selected:
         if term not in merged:
@@ -261,7 +261,7 @@ def ranked_snippets(text: str, terms: list[str], limit: int = 2) -> tuple[str, .
         if is_boilerplate_snippet(line):
             continue
         score = sum(line_lower.count(term) * term_weight(term) for term in terms)
-        if any(marker in line_lower for marker in ("assert", "def ", "return ", "error_code", "incident_mode")):
+        if any(marker in line_lower for marker in ("assert", "def ", "return ", "error_code")):
             score += 4
         if any(marker in line_lower for marker in ("pet.status", "===", "!=", " continue")):
             score += 4
@@ -317,7 +317,7 @@ def product_facts(trigger: TriggerContext) -> list[tuple[str, tuple[str, ...]]]:
     raw = " ".join([trigger.title, trigger.body, " ".join(trigger.labels)]).lower()
     facts: list[tuple[str, tuple[str, ...]]] = [
         (
-            "Humans approve scope, PR review, merge, deployment, and production-facing actions.",
+            "Humans approve scope, PR review, merge, deployment, and risky follow-up decisions.",
             ("AGENTS.md", "docs/repo-memory/petstore-intelligence.md"),
         ),
     ]
@@ -360,8 +360,6 @@ def path_hint(path: Path) -> str:
         "app/tests/test_pet_catalog.py": "focused catalog regression tests",
         "app/petstore_app/adoptions.py": "adoption validation and pending-pet safety",
         "app/tests/test_adoptions.py": "adoption behavior tests",
-        "app/petstore_app/cloud_run_app.py": "runtime incident surface and API status",
-        "app/tests/test_cloud_run_app.py": "Cloud Run/API incident regression tests",
         "app/web/app.js": "static UI catalog filter",
         "app/web/tests/catalog-search.playwright.mjs": "browser evidence pattern for catalog UI changes",
     }
@@ -379,8 +377,6 @@ def likely_paths(hits: list[SearchHit], limit: int = 6) -> list[Path]:
     preferred = [
         Path("app/petstore_app/catalog.py"),
         Path("app/tests/test_pet_catalog.py"),
-        Path("app/petstore_app/cloud_run_app.py"),
-        Path("app/tests/test_cloud_run_app.py"),
         Path("app/web/app.js"),
         Path("app/web/tests/catalog-search.playwright.mjs"),
     ]
@@ -441,15 +437,13 @@ def collect_skills(root: Path, labels: tuple[str, ...]) -> list[Path]:
     skill_paths = sorted((root / "skills").glob("*/SKILL.md"))
     label_text = " ".join(labels)
     if "openhands-context" in labels:
-        preferred = ["sdlc-context-reuse", "sdlc-story", "sdlc-qa", "sdlc-code-review", "sdlc-incident"]
+        preferred = ["sdlc-context-reuse", "sdlc-story", "sdlc-qa", "sdlc-code-review"]
     elif "openhands-build" in labels or "build" in label_text:
         preferred = ["sdlc-context-reuse", "sdlc-story"]
     elif "openhands-qa" in labels:
         preferred = ["sdlc-context-reuse", "sdlc-qa"]
     elif "openhands-review" in labels:
         preferred = ["sdlc-context-reuse", "sdlc-code-review"]
-    elif "openhands-incident" in labels:
-        preferred = ["sdlc-context-reuse", "sdlc-incident"]
     else:
         preferred = ["sdlc-context-reuse"]
     by_name = {path.parent.name: path for path in skill_paths}
@@ -460,7 +454,6 @@ def existing_logs(root: Path) -> list[Path]:
     candidates = [
         root / "docs" / "qa-reports" / "family-friendly-filter.md",
         root / "docs" / "qa-reports" / "family-friendly-filter-playwright" / "qa-report.md",
-        root / "skills" / "sdlc-incident" / "references" / "cloud-run-petstore-incident.md",
     ]
     return [path for path in candidates if path.exists()]
 
@@ -565,9 +558,9 @@ def render_report(root: Path, trigger: TriggerContext) -> str:
     lines.append("")
     lines.append("- `AGENTS.md` and `docs/repo-memory/petstore-intelligence.md` provide product rules and app map.")
     if skill_paths:
-        lines.append("- Use `skills/sdlc-context-reuse/SKILL.md` first, then the specific build/QA/review/incident skill required by the next label.")
+        lines.append("- Use `skills/sdlc-context-reuse/SKILL.md` first, then the specific build, QA, or review skill required by the next label.")
     if log_paths:
-        lines.append("- Existing incident/QA evidence is available for style and safety checks; summarize only the parts relevant to this issue.")
+        lines.append("- Existing QA evidence is available for style and safety checks; summarize only the parts relevant to this issue.")
     if conversation_paths:
         lines.append("- `docs/repo-memory/previous-agent-runs.md` captures prior lessons so the next agent does not rediscover file paths and demo guardrails.")
     lines.append("")

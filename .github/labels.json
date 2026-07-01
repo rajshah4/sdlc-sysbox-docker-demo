@@ -20,11 +20,6 @@
     "description": "Trigger OpenHands QA and test generation"
   },
   {
-    "name": "openhands-incident",
-    "color": "cf222e",
-    "description": "Trigger OpenHands SRE incident triage"
-  },
-  {
     "name": "openhands:ready",
     "color": "54aeff",
     "description": "Automation is eligible to run"
@@ -50,8 +45,8 @@
     "description": "Feature or story request"
   },
   {
-    "name": "type:incident",
+    "name": "type:bug",
     "color": "ffebe9",
-    "description": "Operational incident or production symptom"
+    "description": "Bug or broken product behavior"
   }
 ]

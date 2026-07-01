@@ -14,10 +14,9 @@ The Petstore catalog stores pet availability in the `status` field. Default sear
 ## Risks
 
 - A broad fix could hide pending pets from support workflows that explicitly request them.
-- Incident remediation code should stay out of this build path unless the issue explicitly requests operational repair.
 
 ## Validation Plan
 
 - Run focused catalog tests for default pending-pet exclusion and explicit pending searches.
-- Run cloud/web tests when touched.
+- Run UI smoke tests when static web files are touched.
 - Run the full pytest suite before opening the PR.

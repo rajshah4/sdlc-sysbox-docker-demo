@@ -69,7 +69,6 @@ DEMO_PRIORITY = (
     "docs/logs/pending-pet-visible.ndjson",
     "app/petstore_app/catalog.py",
     "app/tests/test_pet_catalog.py",
-    "app/petstore_app/cloud_run_app.py",
 )
 
 

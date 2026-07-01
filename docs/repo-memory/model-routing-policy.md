@@ -9,7 +9,6 @@ This demo uses model routing as cost governance: cheap agents narrow context, st
 | Story implementation | Update code, tests, OpenSpec-style artifacts, PR body | Coding model | Use after the scout has narrowed files. |
 | QA evidence | Run tests, summarize exact outputs, capture UI evidence | No LLM or low-cost model | Use command output as source of truth. |
 | Code review | Risk review, bug finding, missing tests | Medium model by default | Escalate for security or broad architecture. |
-| Incident triage | Cloud evidence, safe-remediation decision | Low-cost for evidence summary; strong for high-risk judgment | Never mutate production without human approval. |
 
 ## Demo Talk Track
 

@@ -1,4 +1,4 @@
-"""Adoption order behavior used by validation and incident scenarios."""
+"""Adoption order behavior used by validation scenarios."""
 
 from __future__ import annotations
 

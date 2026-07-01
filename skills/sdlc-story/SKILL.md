@@ -82,7 +82,7 @@ For bug-first demos, make the reasoning path visible. The conversation, PR body,
 
 ## OpenSpec-Style Change Artifacts
 
-Use `references/open-spec-template.md` and `references/story-artifacts.md` for the required folder shape, headings, and demo-friendly language. The artifacts are not ceremony; they are the contract that connects the request, implementation, QA, review, and incident follow-up.
+Use `references/open-spec-template.md` and `references/story-artifacts.md` for the required folder shape, headings, and demo-friendly language. The artifacts are not ceremony; they are the contract that connects the request, implementation, QA, review, and human follow-up.
 
 The change folder must include:
 
@@ -113,9 +113,9 @@ If a request has unresolved product, security, data, or environment questions, p
 
 - default available-pets search must exclude pets with `status="pending"`
 - correlate the symptom with `PENDING_PET_VISIBLE` evidence when logs or fixtures are present
-- inspect `app/petstore_app/catalog.py`, `app/petstore_app/cloud_run_app.py`, and existing tests before changing behavior
+- inspect `app/petstore_app/catalog.py` and existing tests before changing behavior
 - add or repair focused tests proving pending pets stay out of default available results
-- do not mutate cloud resources, deployment settings, secrets, auth, or unrelated UI behavior
+- do not mutate deployment settings, secrets, auth, or unrelated UI behavior
 
 `Nova is showing up as adoptable` means:
 

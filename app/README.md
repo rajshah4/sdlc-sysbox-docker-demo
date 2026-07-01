@@ -2,7 +2,7 @@
 
 Small Petstore application used by the SDLC automation scenarios.
 
-The app is intentionally simple. It gives OpenHands enough real behavior to review, test, secure, document, release, and operate.
+The app is intentionally simple. It gives OpenHands enough real behavior to review, test, document, and explain.
 
 ## Domains
 
@@ -11,7 +11,6 @@ The app is intentionally simple. It gives OpenHands enough real behavior to revi
 - adoption order validation
 - donation totals
 - lightweight browser workflow
-- structured telemetry for integration demos
 
 ## Run Tests
 

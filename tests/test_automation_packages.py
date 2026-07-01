@@ -26,7 +26,6 @@ def test_all_github_automation_packages_have_visible_demo_prompts() -> None:
         "openhands-build",
         "openhands-review",
         "openhands-qa",
-        "openhands-incident",
     }
 
     for spec_path in specs:
@@ -47,7 +46,6 @@ def test_github_automation_specs_include_model_profiles() -> None:
         "openhands-build": "Bedrock-Claude-Sonnet-4-5",
         "openhands-qa": "Bedrock-Claude-Sonnet-4-5-fast",
         "openhands-review": "Bedrock-Claude-Haiku-4-5",
-        "openhands-incident": "Bedrock-Claude-Sonnet-4-5",
     }
 
     for automation_name, expected_model in expected_models.items():
@@ -238,13 +236,11 @@ def test_github_runtime_secret_convention_is_consistent() -> None:
     paths = [
         ROOT / "skills" / "sdlc-story" / "SKILL.md",
         ROOT / "skills" / "sdlc-qa" / "SKILL.md",
-        ROOT / "skills" / "sdlc-incident" / "SKILL.md",
         ROOT / "skills" / "sdlc-code-review" / "SKILL.md",
         ROOT / "skills" / "sdlc-sidekick-launcher" / "SKILL.md",
         AUTOMATIONS / "openhands-build" / "prompt.md",
         AUTOMATIONS / "openhands-qa" / "prompt.md",
         AUTOMATIONS / "openhands-review" / "prompt.md",
-        AUTOMATIONS / "openhands-incident" / "prompt.md",
         JIRA_AUTOMATIONS / "jira-to-story" / "prompt.md",
         JIRA_AUTOMATIONS / "jira-to-story-sidekick-v2" / "prompt.md",
     ]

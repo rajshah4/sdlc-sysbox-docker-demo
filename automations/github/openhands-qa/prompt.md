@@ -13,7 +13,7 @@ select the newest open PR in `rajshah4/sdlc-automation-github-demo` that has the
 
 ## Context Reuse Pass
 
-Before broad exploration, use `skills/sdlc-context-reuse/SKILL.md` and the repo memory in `docs/repo-memory/`. Load `AGENTS.md`, the relevant SDLC skill, prior QA/incident evidence, targeted repo search, and previous OpenHands run memory before spending tokens on fresh discovery. When useful, run `python3 scripts/build_context_reuse_report.py` and summarize what context was reused.
+Before broad exploration, use `skills/sdlc-context-reuse/SKILL.md` and the repo memory in `docs/repo-memory/`. Load `AGENTS.md`, the relevant SDLC skill, prior QA evidence, targeted repo search, and previous OpenHands run memory before spending tokens on fresh discovery. When useful, run `python3 scripts/build_context_reuse_report.py` and summarize what context was reused.
 
 Use a lower-cost scout/model profile for context gathering when the runtime supports model routing. Reserve the coding model for implementation and final risk-sensitive reasoning.
 
@@ -21,7 +21,7 @@ Use a lower-cost scout/model profile for context gathering when the runtime supp
 
 1. Read the PR diff, changed files, linked issue, OpenSpec-style change folder, and existing tests. Treat the diff as the primary source for QA scope; the PR body may be sparse and should not need to prescribe test steps.
 2. Use `skills/sdlc-qa/SKILL.md` and, when available, the official OpenHands QA changes behavior.
-3. Identify changed behavior and decide whether it is backend, UI-visible, automation, SRE, docs, or mixed.
+3. Identify changed behavior and decide whether it is backend, UI-visible, automation, docs, or mixed.
 4. Map tests to the OpenSpec-style acceptance criteria when a spec exists.
 5. Add or update focused tests when coverage is missing.
 6. Run focused validation before broad validation.

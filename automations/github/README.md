@@ -12,7 +12,6 @@ The packages use the OpenHands Automations prompt preset API instead of custom S
 | `openhands-build` | issue label | OpenHands opens or updates a PR; humans review and merge |
 | `openhands-review` | PR label | OpenHands posts review findings; humans decide what blocks |
 | `openhands-qa` | PR label | OpenHands adds/runs QA evidence; humans judge readiness |
-| `openhands-incident` | issue label | OpenHands posts incident report or small fix PR; humans approve production actions |
 
 ## Registration
 

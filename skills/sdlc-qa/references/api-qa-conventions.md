@@ -1,6 +1,6 @@
 # API And Behavior QA Conventions
 
-Use this reference when a PR changes Python behavior, Petstore API behavior, or Cloud Run handler logic.
+Use this reference when a PR changes Python behavior or Petstore API behavior.
 
 ## Test Shape
 
@@ -18,8 +18,6 @@ Keep tests readable enough that a reviewer can map them back to the OpenSpec-sty
 | --- | --- | --- |
 | Catalog filters | `app/tests/test_pet_catalog.py` | matching, exclusion, invalid values, default status behavior |
 | Adoption validation | `app/tests/test_adoptions.py` | available pet succeeds, pending/adopted/unknown pet fails |
-| Cloud Run incident | `app/tests/test_cloud_run_app.py` | healthy mode, incident mode, remediation state |
-| Telemetry | `app/tests/test_telemetry.py` | structured fields that incident automation relies on |
 
 ## Strong Assertions
 
@@ -27,7 +25,6 @@ Keep tests readable enough that a reviewer can map them back to the OpenSpec-sty
 - Assert error messages only when they are user/operator visible.
 - Assert integer cents for fee behavior.
 - Assert pending pets are absent from default available-pet paths.
-- For incident remediation, assert the mode returns to `healthy` and pending pets disappear.
 
 ## Avoid
 

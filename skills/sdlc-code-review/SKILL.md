@@ -48,7 +48,6 @@ Skip bikeshedding unless it hides a correctness, security, maintainability, or d
 - New filters reject negative values and invalid ranges.
 - UI changes need UI evidence.
 - Automation result comments should focus on evidence and next steps.
-- Incident remediation must require Cloud Logging evidence and `safe_to_remediate=true`.
 
 Run `python3 skills/sdlc-code-review/scripts/review_checklist.py` for a deterministic Petstore checklist when orienting.
 

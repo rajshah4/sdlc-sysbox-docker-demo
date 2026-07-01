@@ -115,7 +115,6 @@ def likely_files(matches: list[Match]) -> list[str]:
     candidates = [
         "app/petstore_app/catalog.py",
         "app/tests/test_pet_catalog.py",
-        "app/petstore_app/cloud_run_app.py",
         "tests/fixtures/github_issue_labeled_build.json",
     ]
     found = {rel(match.path) for match in matches}

@@ -26,7 +26,7 @@ This skill is based on the automated QA demo pattern: understand the changed beh
 
 0. Use `skills/sdlc-context-reuse/SKILL.md` or `scripts/build_context_reuse_report.py` to reuse durable context, prior QA reports, and targeted repo search before broad exploration.
 1. Read the PR diff, changed files, linked issue, OpenSpec-style change folder, and existing test evidence. Treat the diff as the source of truth; the PR body may be sparse.
-2. Classify the change as backend, UI, automation, docs, SRE, or mixed.
+2. Classify the change as backend, UI, automation, docs, or mixed.
 3. Read the relevant reference:
    - `references/api-qa-conventions.md` for Python behavior/API changes.
    - `references/webapp-testing.md` for UI-visible changes.
@@ -61,7 +61,6 @@ applicable, and one validation/error path when applicable.
 - Pending or adopted pets cannot be adopted.
 - Fees use integer cents, never floats.
 - UI-visible changes need UI evidence.
-- Incident remediation must prove pending pets are no longer visible in the available-pet experience.
 
 ## UI Artifact Contract
 
@@ -84,7 +83,6 @@ evidence, but say clearly that browser interaction was not exercised.
 ```bash
 python3 -m pytest -q app/tests/test_pet_catalog.py
 python3 -m pytest -q app/tests/test_adoptions.py
-python3 -m pytest -q app/tests/test_cloud_run_app.py
 python3 -m pytest -q
 python3 -m http.server 4173 --directory app/web
 python3 skills/sdlc-qa/scripts/static_ui_smoke.py --url http://localhost:4173

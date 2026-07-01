@@ -19,17 +19,16 @@ REQUIRED_LABELS = {
     "openhands-build",
     "openhands-review",
     "openhands-qa",
-    "openhands-incident",
     "openhands:ready",
     "openhands:in-progress",
     "openhands:needs-human",
     "openhands:done",
+    "type:bug",
 }
 REQUIRED_SKILLS = {
     "sdlc-context-reuse",
     "sdlc-story",
     "sdlc-qa",
-    "sdlc-incident",
     "sdlc-code-review",
 }
 OPTIONAL_SKILLS = {
@@ -86,7 +85,6 @@ def validate_automation_specs(failures: list[str]) -> None:
         "openhands-build",
         "openhands-review",
         "openhands-qa",
-        "openhands-incident",
     }
     found = set()
     for spec_path in sorted(AUTOMATION_ROOT.glob("openhands-*/automation.prompt-preset.json")):

@@ -8,7 +8,6 @@ Use this reference when a sparse GitHub request needs to be grounded in the demo
 | --- | --- | --- |
 | Catalog search | `app/petstore_app/catalog.py`, `app/tests/test_pet_catalog.py` | Default search returns available pets only. Pending pets appear only when status is explicit. |
 | Adoption order | `app/petstore_app/adoptions.py`, `app/tests/test_adoptions.py` | Pending or adopted pets cannot be adopted. |
-| Cloud Run surface | `app/petstore_app/cloud_run_app.py`, `app/tests/test_cloud_run_app.py` | Runtime incident mode can expose pending pets and emit structured logs. |
 | Static UI | `app/web/index.html`, `app/web/app.js`, `app/web/styles.css` | UI should remain dependency-free and simple to smoke test. |
 | Demo docs and logs | `docs/wiki/petstore-catalog-availability.md`, `docs/logs/pending-pet-visible.ndjson` | Sparse bug reports can point to business rules and log evidence without spelling out the code path. |
 
@@ -25,7 +24,6 @@ Implementation intent:
 
 Non-goals:
 
-- cloud remediation
 - deployment changes
 - auth, secrets, or IAM changes
 - persistence changes

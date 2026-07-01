@@ -19,7 +19,7 @@ Support reports that Nova appears in the available-pets experience even though s
 
 ## Non-Goals
 
-- Runtime remediation, deployment changes, cloud resource changes, auth, persistence, and unrelated UI changes are out of scope.
+- Deployment changes, auth, persistence, and unrelated UI changes are out of scope.
 
 ## What Changes
 
@@ -32,7 +32,7 @@ Support reports that Nova appears in the available-pets experience even though s
 - `Stop 1 - Ticket`: sparse bug report says customers are seeing pets that are not available.
 - `Stop 2 - Wiki/Docs`: `docs/wiki/petstore-catalog-availability.md`.
 - `Stop 3 - Logs`: `docs/logs/pending-pet-visible.ndjson`, error code `PENDING_PET_VISIBLE`.
-- `Stop 4 - Repo/Files`: catalog and Cloud Run surfaces plus focused tests.
+- `Stop 4 - Repo/Files`: catalog behavior and focused tests.
 - `Stop 5 - Tests/PR`: regression tests and draft PR for human review.
 
 ## Impact

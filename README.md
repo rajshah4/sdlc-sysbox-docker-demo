@@ -9,7 +9,7 @@ merge decisions.
 
 The target app is intentionally small: a Petstore catalog and adoption service.
 That keeps the demo easy to follow while still producing real artifacts: code
-diffs, tests, UI checks, review comments, incident notes, and PRs.
+diffs, tests, UI checks, review comments, and PRs.
 
 This repo is GitHub-first: labels are the automation boundary, GitHub remains
 the system of record, and OpenHands does the agent work only when a human asks
@@ -22,21 +22,19 @@ where requests disappear into a black box. The common bottleneck is:
 
 1. A bug or product request starts as a sparse issue or comment.
 2. Engineers need to understand the issue, find the right code, implement a fix, add tests, and preserve review judgment.
-3. Incident follow-up needs logs, evidence, and safe remediation without giving
-   an agent unlimited production authority.
+3. Demo operators need a path that is easy to explain, repeat, and inspect.
 
 This demo keeps that loop inside GitHub. A human applies a label, OpenHands runs
 one bounded automation, then posts evidence back where the team already works.
 
-## The Five Work Cells
+## The Work Cells
 
 | Work cell | Trigger | What OpenHands does | What humans control |
 | --- | --- | --- | --- |
-| **Context Scout** | Apply `openhands-context` to a sparse issue | Builds a cost-aware context reuse report from AGENTS.md, repo-local skills, prior reports, targeted repo search, and previous OpenHands run memory | Whether to proceed to build/review/QA/incident work |
+| **Context Scout** | Apply `openhands-context` to a sparse issue | Builds a cost-aware context reuse report from AGENTS.md, repo-local skills, prior reports, targeted repo search, and previous OpenHands run memory | Whether to proceed to build, review, or QA work |
 | **Bug to PR** | Apply `openhands-build` to a sparse bug issue | Clarifies the bug, checks repo-local docs and evidence, writes OpenSpec-style change artifacts, implements the fix, runs tests, and opens a PR | Scope, review, approval, and merge |
 | **Code Review** | Apply `openhands-review` to a PR | Reads the diff, checks risk areas, and posts review findings as a PR comment | Which findings block the PR |
 | **Automated QA** | Apply `openhands-qa` to a PR | Builds or updates test coverage, runs deterministic checks, and includes UI test evidence where applicable | Test acceptance and merge readiness |
-| **SRE Incident** | Apply `openhands-incident` to an incident issue | Gathers Cloud Run / Cloud Logging evidence, diagnoses likely cause, and proposes a fix or asks for human help | Production credentials, remediation approval, and merge |
 
 ## What You'll See
 
@@ -45,8 +43,6 @@ one bounded automation, then posts evidence back where the team already works.
 - A sparse bug issue becomes a PR with an implementation branch and visible OpenSpec-style proposal/spec/design/task artifacts.
 - A PR receives an automated review comment rather than a silent background score.
 - QA output lands on the PR with concrete test files and command results. The repo also includes a prebuilt Playwright browser-evidence example with screenshot, GIF, video, and report generation.
-- An incident issue receives an evidence-first triage response; if cloud context
-  is unavailable, the automation should say so and mark the item for humans.
 - Status labels such as `openhands:in-progress`, `openhands:needs-human`, and
   `openhands:done` make the automation state visible without leaving GitHub.
 
@@ -58,18 +54,18 @@ repo-local knowledge, not a custom agent runtime.
 | Capability | Where it lives | Why it matters |
 | --- | --- | --- |
 | OpenHands Automations | `automations/github/`, `automations/jira/` | Prompt presets registered in the Rajistics OpenHands instance. GitHub uses label-triggered work cells; Jira uses the `jira-direct` webhook for sparse task-to-PR demos. |
-| Repo-local skills | `skills/` | Reusable skills encode context reuse, story/spec, optional context-sidekick scouting, QA, SRE, and code-review behavior with scripts and references that customers can inspect. The story skill follows Fission-AI/OpenSpec lineage while avoiding live package installs during timed automation runs. |
+| Repo-local skills | `skills/` | Reusable skills encode context reuse, story/spec, optional context-sidekick scouting, QA, and code-review behavior with scripts and references that customers can inspect. The story skill follows Fission-AI/OpenSpec lineage while avoiding live package installs during timed automation runs. |
 | Repo memory | `docs/repo-memory/` | Durable product rules, model-routing guidance, and previous run lessons keep future agents from rediscovering the same context. |
 | Sidekick mode | `automations/jira/jira-to-story-sidekick-v2/`, `skills/sdlc-sidekick-launcher/`, `skills/sdlc-context-sidekick/` | Optional multi-conversation path where lightweight scouts gather docs, logs, and repo context before the implementation agent runs. |
 | OpenSpec-style artifacts | `openspec/` | Repo-local context and generated change folders keep request, proposal, spec delta, design, and tasks version controlled. |
-| Deterministic scripts | `scripts/` | Preflight, label setup, fixture simulation, Petstore checks, and GCP helpers run before broader model reasoning where possible. |
+| Deterministic scripts | `scripts/` | Preflight, label setup, fixture simulation, and Petstore checks run before broader model reasoning where possible. |
 | GitHub templates and labels | `.github/` | Issues, PRs, and labels define the human approval boundaries. |
-| Petstore app | `app/` | A small API/UI surface gives the automations realistic code, tests, and incident paths to work on. |
+| Petstore app | `app/` | A small API/UI surface gives the automations realistic code and tests to work on. |
 | Playwright UI evidence | `app/web/tests/` | Browser QA example that records video, creates a GIF preview, captures a screenshot, and writes a report for PR evidence when Playwright is available. |
 
 Cost and security are part of the demo design: event-driven labels avoid
 unnecessary LLM calls, preflight scripts catch configuration issues without
-using a model, different LLM profiles can be used for scouting/coding/review/ops, and
+using a model, different LLM profiles can be used for scouting/coding/review/QA, and
 secrets stay in the OpenHands secret store or local `.env`, never in the repo.
 
 ## Fast Local Validation
@@ -85,12 +81,12 @@ python3 scripts/simulate_github_event.py --fixture tests/fixtures/github_issue_l
 
 | Folder | Purpose |
 | --- | --- |
-| `app/` | Small Petstore app, static UI, Cloud Run surface, and app tests. |
+| `app/` | Small Petstore app, static UI, and app tests. |
 | `automations/` | OpenHands prompt-preset automation packages for GitHub and Jira. |
 | `docs/repo-memory/` | Durable memory for product rules, model routing, and previous OpenHands run lessons. |
 | `openspec/` | OpenSpec-style project context and generated change folders for story-to-PR work. |
 | `skills/` | Repo-local OpenHands skills with scripts and references. |
-| `scripts/` | Deterministic setup, registration, preflight, QA, and SRE helpers. |
+| `scripts/` | Deterministic setup, registration, preflight, and QA helpers. |
 | `docs/` | Customer-facing setup, walkthrough, and validation notes. |
 | `.github/` | Issue/PR templates and label definitions; the live demo uses OpenHands labels, not GitHub Actions. |
 
@@ -124,7 +120,7 @@ For a fast live demo, keep `jira-to-story` enabled and `jira-to-story-sidekick-v
 disabled. For the visible multi-conversation demo, switch those states and create
 the Jira Task with label `sidekick-v2`.
 
-No secrets belong in this repo. Store OpenHands, GitHub, Slack, and GCP credentials in the OpenHands secret store or a local `.env` excluded by `.gitignore`.
+No secrets belong in this repo. Store OpenHands, GitHub, Jira, and Slack credentials in the OpenHands secret store or a local `.env` excluded by `.gitignore`.
 
 ## Demo Docs
 
