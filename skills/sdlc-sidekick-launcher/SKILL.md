@@ -45,7 +45,9 @@ python3 scripts/launch_sidekick_v2.py --jira-key "<ISSUE_KEY>" --title "<ISSUE_S
 
 The script owns the default Rajistics host, scout model, main model, timeouts,
 parallel scout launch, 90-second main-start barrier, GitHub token verification,
-and final JSON summary. Runtime settings come from environment secrets.
+and final JSON summary. Runtime settings come from environment secrets. In fresh
+sandboxes the launcher may wait up to two minutes for runtime-injected secrets
+to become available before starting the side conversations.
 
 Run the terminal action with a timeout of at least 900 seconds. The launcher may
 produce little or no output until the final JSON summary; that is expected. Do

@@ -149,11 +149,11 @@ def env_first(*names: str) -> str:
 
 
 def secret_wait_seconds() -> float:
-    raw_value = os.getenv("SIDEKICK_SECRET_WAIT_SECONDS", "20")
+    raw_value = os.getenv("SIDEKICK_SECRET_WAIT_SECONDS", "120")
     try:
         return max(0.0, float(raw_value))
     except ValueError:
-        return 20.0
+        return 120.0
 
 
 def env_first_wait(*names: str) -> str:
