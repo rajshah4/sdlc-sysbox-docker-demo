@@ -40,7 +40,7 @@ Run the launcher exactly once. Use one shell command, not a backslash-wrapped
 multi-line command, so argument parsing is unambiguous:
 
 ```bash
-python3 scripts/launch_sidekick_v2.py --jira-key "<ISSUE_KEY>" --title "<ISSUE_SUMMARY>" --body "<ISSUE_DESCRIPTION_PLAIN_TEXT>" --full
+OPENHANDS_API_KEY_ORG="${OPENHANDS_API_KEY_ORG:-${OPENHANDS_API_KEY:-}}" GITHUB_TOKEN="${GITHUB_TOKEN}" python3 scripts/launch_sidekick_v2.py --jira-key "<ISSUE_KEY>" --title "<ISSUE_SUMMARY>" --body "<ISSUE_DESCRIPTION_PLAIN_TEXT>" --full
 ```
 
 The script owns the default Rajistics host, scout model, main model, timeouts,
@@ -48,6 +48,10 @@ parallel scout launch, 90-second main-start barrier, GitHub token verification,
 and final JSON summary. Runtime settings come from environment secrets. In fresh
 sandboxes the launcher may wait up to two minutes for runtime-injected secrets
 to become available before starting the side conversations.
+
+The command intentionally references `OPENHANDS_API_KEY_ORG`,
+`OPENHANDS_API_KEY`, and `GITHUB_TOKEN` so the runtime injects those secrets into
+the Python process without printing them.
 
 Run the terminal action with a timeout of at least 900 seconds. The launcher may
 produce little or no output until the final JSON summary; that is expected. Do
