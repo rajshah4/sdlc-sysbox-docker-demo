@@ -15,6 +15,7 @@ AUTOMATION_ROOT = REPO_ROOT / "automations" / "github"
 LABELS_PATH = REPO_ROOT / ".github" / "labels.json"
 SKILLS_ROOT = REPO_ROOT / "skills"
 REQUIRED_LABELS = {
+    "openhands-context",
     "openhands-build",
     "openhands-review",
     "openhands-qa",
@@ -25,6 +26,7 @@ REQUIRED_LABELS = {
     "openhands:done",
 }
 REQUIRED_SKILLS = {
+    "sdlc-context-reuse",
     "sdlc-story",
     "sdlc-qa",
     "sdlc-incident",
@@ -79,6 +81,7 @@ def validate_labels(failures: list[str]) -> None:
 
 def validate_automation_specs(failures: list[str]) -> None:
     expected = {
+        "openhands-context",
         "openhands-build",
         "openhands-review",
         "openhands-qa",

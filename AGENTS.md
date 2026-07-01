@@ -11,6 +11,7 @@ This is the GitHub-native SDLC Automation Demo. Customer-facing language should 
 - Repo-local OpenHands skills: `skills/`
 - Setup and registration scripts: `scripts/`
 - Demo docs: `docs/`
+- Durable repo memory: `docs/repo-memory/`
 
 ## Automation Rules
 
@@ -19,6 +20,7 @@ This is the GitHub-native SDLC Automation Demo. Customer-facing language should 
 - Do not push directly to `main`.
 - Do not print or commit secrets.
 - Prefer deterministic scripts and preflight checks before spending LLM calls.
+- Use `docs/repo-memory/` and `skills/sdlc-context-reuse/SKILL.md` before broad exploration; use lower-cost scout/model profiles for context gathering when available.
 - Use event-driven GitHub triggers instead of polling.
 - Avoid dependency installation in automation helper scripts unless a prompt explicitly authorizes it.
 

@@ -23,6 +23,10 @@ The review should feel like a senior engineer looking for real defects, not a st
 - Avoid result comments that repeat the exact trigger text.
 - Use runtime secret `GITHUB_TOKEN` for GitHub API calls, reviews, labels, and comments. Do not use `GITHUB` or `GH_TOKEN`; if auth is missing or returns 401, stop and report `GITHUB_TOKEN` is missing or invalid without printing it.
 
+## Context Reuse
+
+Before reviewing, use `skills/sdlc-context-reuse/SKILL.md` or `scripts/build_context_reuse_report.py` to load durable repo rules, prior QA/review evidence, and targeted repo search. Prefer lower-cost context gathering before higher-cost risk judgment.
+
 ## Review Priorities
 
 Lead with concrete findings:

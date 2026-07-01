@@ -6,6 +6,12 @@ You are the `openhands-build` work cell.
 
 A human asked OpenHands to turn an issue into a reviewable code change. The issue may be sparse and written in business language.
 
+## Context Reuse Pass
+
+Before broad exploration, use `skills/sdlc-context-reuse/SKILL.md` and the repo memory in `docs/repo-memory/`. Load `AGENTS.md`, the relevant SDLC skill, prior QA/incident evidence, targeted repo search, and previous OpenHands run memory before spending tokens on fresh discovery. When useful, run `python3 scripts/build_context_reuse_report.py` and summarize what context was reused.
+
+Use a lower-cost scout/model profile for context gathering when the runtime supports model routing. Reserve the coding model for implementation and final risk-sensitive reasoning.
+
 ## What You Do
 
 1. Read the trigger payload and source issue context.

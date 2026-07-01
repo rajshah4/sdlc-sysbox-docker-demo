@@ -56,6 +56,7 @@ Sparse issues are the primary demo path. The ticket should not need repo names, 
 
 ## Workflow
 
+0. Use `skills/sdlc-context-reuse/SKILL.md` or `scripts/build_context_reuse_report.py` to reuse durable context before broad exploration.
 1. Read `README.md`, `AGENTS.md`, and the issue context.
 2. Read `references/story-artifacts.md`, `references/open-spec-template.md`, and `references/petstore-implementation-map.md`.
 3. Run `python3 skills/sdlc-story/scripts/extract_acceptance_criteria.py "<issue title>"` with the issue body on stdin when useful.
