@@ -1,0 +1,42 @@
+{
+  "name": "delegated-sdlc-factory",
+  "runtime": "replicated",
+  "run_directory": "factory_runs/{{run_id}}",
+  "system_of_record": "jira-or-custom-webhook",
+  "supervisor": {
+    "prompt": "automations/replicated-jira-delegated-factory/prompt.md",
+    "report": "factory_runs/{{run_id}}/lifecycle-report.md"
+  },
+  "cells": [
+    {
+      "name": "story-to-pr",
+      "prompt": "automations/replicated-jira-delegated-factory/workcells/story-to-pr.md",
+      "artifact": "factory_runs/{{run_id}}/story-to-pr.final.md",
+      "continue_on": ["done"],
+      "next": ["code-review", "qa"]
+    },
+    {
+      "name": "code-review",
+      "prompt": "automations/replicated-jira-delegated-factory/workcells/code-review.md",
+      "artifact": "factory_runs/{{run_id}}/code-review.final.md",
+      "continue_on": ["pass", "findings"],
+      "next": ["qa"]
+    },
+    {
+      "name": "qa",
+      "prompt": "automations/replicated-jira-delegated-factory/workcells/qa.md",
+      "artifact": "factory_runs/{{run_id}}/qa.final.md",
+      "continue_on": ["pass"],
+      "next": []
+    }
+  ],
+  "human_gates": [
+    "scope",
+    "credentials",
+    "security",
+    "review",
+    "merge",
+    "deployment",
+    "production-remediation"
+  ]
+}

@@ -30,11 +30,11 @@ deployment, production credentials, and unsafe remediation.
 | Runtime | Start here | Copy/adapt |
 | --- | --- | --- |
 | **Agent Canvas** | [`agent-canvas/README.md`](../agent-canvas/README.md) | `agent-canvas/prompts/supervisor.md`, `agent-canvas/prompts/workcells/*.md`, `agent-canvas/scripts/run_agent_canvas_factory.py`, `agent-canvas/scripts/agent_canvas_delegate.py` |
-| **OpenHands Enterprise/Cloud** | [PR #86](https://github.com/rajshah4/sdlc-automation-github-demo/pull/86) | prompt-preset automation, parent orchestrator, child prompts, app-conversation API helper, delegated-factory skill |
+| **OpenHands Enterprise/Cloud** | [`docs/replicated-jira-delegated-factory-demo.md`](replicated-jira-delegated-factory-demo.md) | `automations/replicated-jira-delegated-factory/`, `scripts/run_replicated_factory.py`, `scripts/openhands_v1_delegate.py`, `scripts/register_replicated_factory_automation.py`, `skills/delegated-conversation-factory/` |
 
-The Agent Canvas version is already on `main`. The OpenHands Enterprise/Cloud
-version was live-tested on the Rajistics Replicated instance and currently lives
-on the PR #86 branch.
+Both versions are on `main`. The OpenHands Enterprise/Cloud version was
+live-tested on the Rajistics Replicated instance and is packaged as an opt-in
+automation so it does not replace the step-by-step label demo.
 
 ## Build Checklist
 
@@ -52,12 +52,13 @@ behavior into automation prompts just to build a delegated factory.
    gates, and where to post the final summary.
 
 3. **Write one child prompt per workcell.**
-   Each child prompt should be self-contained. It should name the input, output
-   artifact, status contract, and expected final response.
+   Each child prompt should be self-contained. It should name the input,
+   parent-captured final artifact, status contract, and expected final
+   response.
 
 4. **Use a helper to start and wait for children.**
    Agent Canvas uses `agent_canvas_delegate.py`. OpenHands Enterprise/Cloud uses
-   the app-conversation API helper from PR #86.
+   `scripts/openhands_v1_delegate.py`.
 
 5. **Record a lifecycle report.**
    Save child IDs, conversation links, statuses, artifacts, and human next
@@ -98,14 +99,19 @@ Finish by writing a lifecycle report and posting a summary back to {{system_of_r
 Each child should end with a small parseable contract:
 
 ```text
-status: pass | findings | needs-human | fail
-artifact: factory_runs/<run-id>/<workcell>.md
+status: pass | findings | needs-human | failed
+artifact: factory_runs/<run-id>/<workcell>.final.md
 summary: <short human-readable result>
 next: <human next step or none>
 ```
 
 That contract lets the parent decide whether to continue, stop, or ask for
 human input.
+
+For OpenHands Enterprise/Cloud and Replicated, child conversations run in
+separate sandboxes. Child-written files are visible to the parent only if the
+child commits or pushes them, so the parent should capture each child final
+response as `<workcell>.final.md` and gate on that text.
 
 ## Minimal Orchestrator Shape
 

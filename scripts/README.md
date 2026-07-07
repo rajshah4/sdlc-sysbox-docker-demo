@@ -11,6 +11,9 @@ SDLC policy out of skills or change the automation boundaries.
 | --- | --- |
 | `scripts/automations/` | Register, list, disable, and label OpenHands automations. |
 | `scripts/build_context_reuse_report.py` | Build deterministic context-reuse reports before expensive agent work. This remains top-level because live GitHub automation prompts call it directly. |
+| `scripts/run_replicated_factory.py` | Parent-side orchestrator for the OpenHands Enterprise/Replicated delegated factory. |
+| `scripts/openhands_v1_delegate.py` | Dependency-free OpenHands V1 app-conversation helper used by the Replicated factory. |
+| `scripts/register_replicated_factory_automation.py` | Registers only the opt-in Replicated delegated factory prompt-preset automation. |
 | `scripts/validation/` | Run local preflight checks and fixture simulations. |
 | `scripts/openhands/` | Inspect or summarize OpenHands conversations. |
 | `scripts/sidekick/` | Legacy sidekick launch helpers for the visible multi-conversation Jira demo. |
@@ -45,8 +48,14 @@ Run the Agent Canvas parent-child factory:
 python3 agent-canvas/scripts/start_agent_canvas_factory.py --help
 ```
 
+Register the opt-in Replicated parent-child factory:
+
+```bash
+python3 scripts/register_replicated_factory_automation.py --dry-run
+```
+
 ## Path Policy
 
-New helper scripts should live in one of the folders above. Keep
-`scripts/build_context_reuse_report.py` at the top level until the live GitHub
-automation prompts are deliberately migrated and re-registered.
+New step-by-step helper scripts should live in one of the folders above.
+Top-level scripts are reserved for live automation entry points and reusable
+factory runtime templates that prompts call by exact path.

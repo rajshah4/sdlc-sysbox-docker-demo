@@ -84,9 +84,9 @@ The core orchestration rule is the same in both paths: one parent conversation
 is the control plane, child conversations own bounded work, and final responses
 are treated as small contracts that the parent can summarize and gate.
 
-The current working branch for this pattern is
-[`feature/canvas-issue-101-max-adoption-fee-filter`](https://github.com/rajshah4/sdlc-automation-github-demo/tree/feature/canvas-issue-101-max-adoption-fee-filter).
-PR #86 carries the concrete files and the live-tested Replicated Jira flow.
+The Replicated/OpenHands Enterprise version is runnable from `main` under
+`automations/replicated-jira-delegated-factory/`, `scripts/run_replicated_factory.py`,
+and `skills/delegated-conversation-factory/`.
 
 ## Build Your Own Version
 
@@ -96,7 +96,7 @@ Use the path that matches the amount of control you want:
 | --- | --- | --- |
 | **Step-by-Step Control** | [GitHub walkthrough](docs/github-demo-walkthrough.md), [GitHub automation packages](automations/github/README.md), [Jira automation packages](automations/jira/README.md), [script map](scripts/README.md) | One OpenHands automation per gate, repo-local skills, labels/webhooks, and `scripts/automations/register_github_automations.py` or `scripts/automations/register_jira_automations.py` |
 | **Complete Automation: Agent Canvas** | [Parent-child build guide](docs/build-parent-child-factory.md), [Agent Canvas recipe](agent-canvas/README.md), [factory demo notes](docs/agent-canvas-dark-factory-demo.md) | Parent supervisor prompt, child workcell prompts, `agent-canvas/scripts/run_agent_canvas_factory.py`, and `agent-canvas/scripts/agent_canvas_delegate.py` |
-| **Complete Automation: OpenHands Enterprise/Cloud** | [Parent-child build guide](docs/build-parent-child-factory.md), [PR #86](https://github.com/rajshah4/sdlc-automation-github-demo/pull/86), [Replicated runbook on the branch](https://github.com/rajshah4/sdlc-automation-github-demo/blob/feature/canvas-issue-101-max-adoption-fee-filter/docs/replicated-jira-delegated-factory-demo.md) | Prompt-preset automation, parent orchestrator, child prompts, app-conversation API helper, and reusable delegated-factory skill |
+| **Complete Automation: OpenHands Enterprise/Cloud** | [Parent-child build guide](docs/build-parent-child-factory.md), [Replicated runbook](docs/replicated-jira-delegated-factory-demo.md), [delegated-factory skill](skills/delegated-conversation-factory/SKILL.md) | Prompt-preset automation, parent orchestrator, child prompts, app-conversation API helper, and reusable delegated-factory skill |
 
 For the parent-child approaches, the design checklist is:
 
@@ -131,7 +131,7 @@ repo-local knowledge, not a custom agent runtime.
 | --- | --- | --- |
 | OpenHands automations | `automations/github/`, `automations/jira/` | Event-triggered automations configured in OpenHands. GitHub labels and Jira webhooks start the work; GitHub and Jira remain the systems of record. |
 | Repo-local skills | `skills/` | Reusable skills encode context reuse, story/spec, QA, and code-review behavior with scripts and references that customers can inspect. |
-| Delegated factory pattern | PR #86 | Adds the parent-child supervisor path for OpenHands Enterprise/Cloud and Agent Canvas without replacing the label-driven automations. |
+| Delegated factory pattern | `automations/replicated-jira-delegated-factory/`, `agent-canvas/`, `skills/delegated-conversation-factory/` | Adds the parent-child supervisor path for OpenHands Enterprise/Cloud and Agent Canvas without replacing the label-driven automations. |
 | OpenSpec-style artifacts | `openspec/` | Repo-local context and generated change folders keep request, proposal, spec delta, design, and tasks version controlled. |
 | Deterministic scripts | `scripts/` | Preflight, label setup, fixture simulation, and Petstore checks run before broader model reasoning where possible. |
 | GitHub templates and labels | `.github/` | Issues, PRs, and labels define the human approval boundaries. |
