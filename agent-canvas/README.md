@@ -107,57 +107,70 @@ For a dry preview of the parent prompt:
 python3 agent-canvas/scripts/start_agent_canvas_factory.py --render-only
 ```
 
-## Reproducing Or Extending This Demo
+## Building A Multi-Agent Factory
 
-This recipe was built from two parts: the repo-local SDLC demo assets and the
-Agent Canvas delegation pattern. The useful pattern is that the parent
-conversation stays small and supervisory, while each child conversation receives
-a complete prompt, one working tree, a clear output contract, and the specific
-validation it owns.
+This repository is one implementation of a more general pattern: use Agent
+Canvas to create one parent conversation that acts as the factory supervisor,
+then have that parent delegate bounded work to child conversations.
 
-To reproduce the recipe in another repository:
+Start with the
+[Agent Canvas Environment skill](https://github.com/OpenHands/extensions/blob/main/skills/agent-canvas-environment/SKILL.md#delegate-to-a-local-conversation).
+The skill provides the local delegation mechanics: how to create child
+conversations through the Agent Canvas API, how to forward encrypted settings,
+how to attach a local workspace, and why each delegated prompt must be
+self-contained.
 
-1. Copy `agent-canvas/` into the target repo. Copy the root-level compatibility
-   wrappers from `scripts/` only if you want old commands such as
-   `python3 scripts/start_agent_canvas_factory.py` to keep working.
-2. Update `prompts/supervisor.md` with the workcell order, story metadata, and
-   the exact orchestrator command for the target repo.
-3. Update each prompt under `prompts/workcells/` so it is self-contained. A
-   delegated conversation does not inherit hidden context from the parent
-   conversation.
-4. Adapt `agent-canvas/scripts/run_agent_canvas_factory.py` for the workcells
-   you want. The default sequence is `story-to-pr`, `code-review`, and `qa`.
-5. Adapt the QA command and evidence expectations for the target application.
-   For UI-visible changes, require browser evidence such as Playwright reports,
-   screenshots, traces, videos, or an equivalent artifact.
-6. Point the launcher at the target repo, issue source, and GitHub repo slug.
-   The current demo starts from a GitHub issue, but the launcher can receive
-   equivalent story metadata from Jira, ServiceNow, a webhook, or a scheduled
-   polling automation.
-7. Run a dry prompt preview with `--render-only`, then run one full workflow and
-   inspect `factory_runs/<run-id>/`, the child conversation links, and the PR
-   body before presenting the recipe.
+The repeatable recipe is:
 
-We used an Agent Canvas environment skill as the implementation guide for local
-delegation. The important mechanics from that skill are:
+1. Decide the lifecycle. Define the workcells you want the factory to run, such
+   as story-to-PR, code review, QA, security review, release notes, or
+   deployment validation.
+2. Write the parent contract. Tell the parent conversation that it is the
+   orchestrator, not the implementer. Give it the workcell order, stop
+   conditions, required artifacts, and human gates.
+3. Write one self-contained child prompt per workcell. Include the repo path,
+   issue or ticket data, branch/PR expectations, validation commands, output
+   contract, and what the child must not do.
+4. Connect the parent to the Agent Canvas skill. The parent or a repo-local
+   helper should use the skill's delegation pattern to create local child
+   conversations instead of browser-clicking the UI.
+5. Keep the trigger thin. A GitHub issue, Jira ticket, ServiceNow request,
+   webhook, scheduled polling job, or operator action should provide story
+   inputs to the launcher. It should not become the workflow orchestrator.
+6. Persist evidence. Have each child write an artifact, such as an implementation
+   report, review report, QA report, screenshot, video, trace, or test log.
+7. Make the shared surface readable. For a GitHub flow, keep the PR body plain:
+   story, code, review, and QA. Link to artifacts instead of narrating a canned
+   demo.
+8. Run one full unattended workflow, inspect the parent and child conversations,
+   then harden the prompts where the children needed missing context.
 
-- Create delegated conversations through the local Agent Canvas API instead of
-  browser-clicking the UI.
+When giving guidance to the parent conversation, be explicit about:
+
+- which skill to use for delegation;
+- the exact workcells to delegate;
+- the repo path and story source;
+- whether children may create branches, commits, and PRs;
+- which tests or browser evidence are required;
+- which model profile, if any, should be used for a specific workcell;
+- where artifacts must be written;
+- when the factory must stop and ask for human help.
+
+Important mechanics from the skill:
+
 - Fetch Agent Canvas settings with encrypted secrets and send them back with
   `secrets_encrypted: true`; do not print API keys or write settings files.
 - Include the terminal, file editor, browser, task tracker, and Canvas UI tools
-  when the child needs to work inside the repo.
-- Use a self-contained prompt for every child conversation.
+  when a child needs to work inside the repo.
 - Attach the repo as a `LocalWorkspace` and use `worktree: false` when the repo
   checkout is already isolated.
+- Assume delegated conversations do not inherit hidden parent context. Put all
+  required context in the child prompt or in repo artifacts.
 
-Hints that made this demo more reliable:
+Implementation tips from this demo:
 
 - Keep labels as optional metadata only. The Canvas parent conversation is the
   workflow control plane.
-- Treat the external trigger as an adapter. It should pass story inputs into
-  `agent-canvas/scripts/start_agent_canvas_factory.py`; it should not become the
-  lifecycle orchestrator.
 - Snapshot prompts and helper scripts into `factory_runs/<run-id>/` before
   creating child conversations. This keeps downstream gates working even when
   the story branch changes the checked-out tree.
@@ -168,6 +181,11 @@ Hints that made this demo more reliable:
 - Make Playwright evidence explicit for UI stress tests. If browser execution is
   unavailable, the QA delegate should report `needs-human` instead of silently
   substituting weaker evidence.
+
+To adapt this repo's implementation after designing your own factory contract,
+use `agent-canvas/` as an example package: prompts live under `prompts/`, the
+delegation helpers live under `scripts/`, and run artifacts are written under
+`factory_runs/<run-id>/`.
 
 ## For Mac Users
 
