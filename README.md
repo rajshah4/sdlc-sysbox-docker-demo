@@ -94,9 +94,9 @@ Use the path that matches the amount of control you want:
 
 | Pattern | Build guide | Copy/adapt these pieces |
 | --- | --- | --- |
-| **Step-by-Step Control** | [GitHub walkthrough](docs/github-demo-walkthrough.md), [GitHub automation packages](automations/github/README.md), [Jira automation packages](automations/jira/README.md) | One OpenHands automation per gate, repo-local skills, labels/webhooks, and `scripts/register_github_automations.py` or `scripts/register_jira_automations.py` |
-| **Complete Automation: Agent Canvas** | [Agent Canvas recipe](agent-canvas/README.md), [factory demo notes](docs/agent-canvas-dark-factory-demo.md) | Parent supervisor prompt, child workcell prompts, `agent-canvas/scripts/run_agent_canvas_factory.py`, and `agent-canvas/scripts/agent_canvas_delegate.py` |
-| **Complete Automation: OpenHands Enterprise/Cloud** | [PR #86](https://github.com/rajshah4/sdlc-automation-github-demo/pull/86), [Replicated runbook on the branch](https://github.com/rajshah4/sdlc-automation-github-demo/blob/feature/canvas-issue-101-max-adoption-fee-filter/docs/replicated-jira-delegated-factory-demo.md) | Prompt-preset automation, parent orchestrator, child prompts, app-conversation API helper, and reusable delegated-factory skill |
+| **Step-by-Step Control** | [GitHub walkthrough](docs/github-demo-walkthrough.md), [GitHub automation packages](automations/github/README.md), [Jira automation packages](automations/jira/README.md), [script map](scripts/README.md) | One OpenHands automation per gate, repo-local skills, labels/webhooks, and `scripts/register_github_automations.py` or `scripts/register_jira_automations.py` |
+| **Complete Automation: Agent Canvas** | [Parent-child build guide](docs/build-parent-child-factory.md), [Agent Canvas recipe](agent-canvas/README.md), [factory demo notes](docs/agent-canvas-dark-factory-demo.md) | Parent supervisor prompt, child workcell prompts, `agent-canvas/scripts/run_agent_canvas_factory.py`, and `agent-canvas/scripts/agent_canvas_delegate.py` |
+| **Complete Automation: OpenHands Enterprise/Cloud** | [Parent-child build guide](docs/build-parent-child-factory.md), [PR #86](https://github.com/rajshah4/sdlc-automation-github-demo/pull/86), [Replicated runbook on the branch](https://github.com/rajshah4/sdlc-automation-github-demo/blob/feature/canvas-issue-101-max-adoption-fee-filter/docs/replicated-jira-delegated-factory-demo.md) | Prompt-preset automation, parent orchestrator, child prompts, app-conversation API helper, and reusable delegated-factory skill |
 
 For the parent-child approaches, the design checklist is:
 
@@ -187,7 +187,9 @@ No secrets belong in this repo. Store OpenHands, GitHub, Jira, and Slack credent
 ## Demo Docs
 
 - [GitHub demo walkthrough](docs/github-demo-walkthrough.md)
+- [Build a parent-child automation factory](docs/build-parent-child-factory.md)
 - [Agent Canvas delegated factory](agent-canvas/README.md)
+- [Script map](scripts/README.md)
 - [Enterprise memory and cost demo](docs/enterprise-memory-cost-demo.md)
 - [Setup checklist](docs/setup-checklist.md)
 - [Demo upgrade backlog](docs/demo-upgrades.md)
