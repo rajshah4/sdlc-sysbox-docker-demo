@@ -21,14 +21,23 @@ points, see `../docs/agent-canvas-dark-factory-demo.md`.
 ## Conversation Topology
 
 ```mermaid
-flowchart TD
-    A["Parent conversation: factory supervisor"] --> B["Child: story to PR"]
-    B --> C["Child: code review"]
-    C --> D["Child: QA"]
-    B --> A
-    C --> A
-    D --> A
+flowchart LR
+    P["Parent conversation: factory supervisor"]
+    S["Child: story to PR"]
+    R["Child: code review"]
+    Q["Child: QA"]
+
+    P -- "delegates" --> S
+    P -- "delegates" --> R
+    P -- "delegates" --> Q
+
+    S -- "reports output" --> P
+    R -- "reports review" --> P
+    Q -- "reports QA" --> P
 ```
+
+The parent creates each child conversation and gathers each child result.
+Children do not hand work directly to one another.
 
 ## Files
 
