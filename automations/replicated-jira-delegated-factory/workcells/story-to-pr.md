@@ -34,6 +34,11 @@ conversations, not from GitHub labels.
    leave a local branch or diff and report the missing capability without
    printing secret names or values.
 
+Secret-safe Git/GitHub rule: do not run `git remote -v`, `gh auth status`, or
+any command that prints token-bearing remote URLs. Open the PR through the
+available GitHub tool or API, and keep any `GITHUB_TOKEN` usage in headers or
+tool calls that do not echo the token.
+
 Demo-specific Petstore hint: if the Jira story asks for the prepared max
 adoption fee example, prefer one optional max-fee filter using integer cents.
 For another application, replace this hint with the app-specific acceptance

@@ -45,6 +45,7 @@ Sparse issues are the primary demo path. The ticket should not need repo names, 
 - Use event context; do not poll GitHub.
 - Avoid result comments that repeat the exact trigger text.
 - Use runtime secret `GITHUB_TOKEN` for GitHub API calls, `gh`, pushes, PRs, labels, and comments. Do not use `GITHUB` or `GH_TOKEN`; if auth is missing or returns 401, stop and report `GITHUB_TOKEN` is missing or invalid without printing it.
+- Do not run `git remote -v`, `gh auth status`, or any command that prints token-bearing remote URLs. Use GitHub tools or API calls for PR creation and label/comment updates, and never echo auth-bearing remotes, token previews, or authorization headers.
 - Never merge, bypass review, change branch protection, or alter deployment settings.
 
 ## Jira Boundaries
