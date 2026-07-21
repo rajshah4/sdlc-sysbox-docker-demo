@@ -48,12 +48,9 @@ def load_request(spec_path: Path) -> dict[str, Any]:
         "prompt": prompt_path.read_text(encoding="utf-8"),
         "trigger": expand_env(spec["trigger"]),
     }
-    if "timeout" in spec:
-        request["timeout"] = expand_env(spec["timeout"])
-    if "repos" in spec:
-        request["repos"] = expand_env(spec["repos"])
-    if "model" in spec:
-        request["model"] = expand_env(spec["model"])
+    for optional in ("timeout", "keep_alive", "repos", "model"):
+        if optional in spec:
+            request[optional] = expand_env(spec[optional])
     return request
 
 
@@ -76,8 +73,11 @@ def post_prompt_preset(host: str, api_key: str, payload: dict[str, Any]) -> dict
         raise RuntimeError(f"OpenHands API returned {exc.code}: {body}") from exc
 
 
-def automation_specs() -> list[Path]:
-    return sorted(AUTOMATION_ROOT.glob("openhands-*/automation.prompt-preset.json"))
+def automation_specs(include: set[str] | None = None) -> list[Path]:
+    specs = sorted(AUTOMATION_ROOT.glob("openhands-*/automation.prompt-preset.json"))
+    if include:
+        specs = [path for path in specs if path.parent.name in include]
+    return specs
 
 
 def main() -> int:
@@ -86,6 +86,7 @@ def main() -> int:
     mode.add_argument("--dry-run", action="store_true", help="print requests without creating automations")
     mode.add_argument("--apply", action="store_true", help="create automations through OpenHands API")
     parser.add_argument("--env-file", type=Path, help="load KEY=value entries without printing values")
+    parser.add_argument("--include", action="append", help="automation folder to include; repeatable")
     parser.add_argument("--repository", help="set GITHUB_DEMO_REPOSITORY for this run")
     parser.add_argument("--repo-url", help="set GITHUB_DEMO_REPO_URL for this run")
     parser.add_argument("--ref", help="set GITHUB_DEMO_REF for repositories cloned by automations")
@@ -117,7 +118,7 @@ def main() -> int:
     )
 
     results: list[dict[str, Any]] = []
-    for spec_path in automation_specs():
+    for spec_path in automation_specs(set(args.include or [])):
         payload = load_request(spec_path)
         if dry_run:
             spec = json.loads(spec_path.read_text(encoding="utf-8"))
