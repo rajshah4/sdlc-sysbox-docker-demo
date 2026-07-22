@@ -92,6 +92,7 @@ The narration line is:
 | `scripts/validation/` | Sysbox preflight, reproduction, and full QA path |
 | `prompts/fix-adoption-race.md` | Prompt for the live OpenHands run |
 | `docs/sysbox-demo-runbook.md` | Operator walkthrough and evidence checklist |
+| `docs/tested-environment.md` | Exact Replicated, Sysbox, Docker, and guidance versions tested |
 
 ## Human Control
 

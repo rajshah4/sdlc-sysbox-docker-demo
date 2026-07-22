@@ -36,9 +36,9 @@ By default, registration clones `main` for each run. For a live demo branch, pas
 ```bash
 python3 scripts/automations/register_github_automations.py \
   --apply \
-  --repository rajshah4/sdlc-automation-github-demo \
-  --repo-url https://github.com/rajshah4/sdlc-automation-github-demo \
-  --ref codex/memory-cost-overlay
+  --repository rajshah4/sdlc-sysbox-docker-demo \
+  --repo-url https://github.com/rajshah4/sdlc-sysbox-docker-demo \
+  --ref main
 ```
 
 After rebuilding or replacing an OpenHands installation, run the registration
@@ -49,3 +49,7 @@ process rather than a one-time setup step.
 Before a live demo, confirm that the GitHub organization is claimed by the
 intended OpenHands organization, the GitHub App can access this repository, and
 the installed automation runner is compatible with the runtime version.
+
+The build and QA work cells allow 30 minutes because a cold Sysbox sandbox may
+need to pull the PostgreSQL, Redis, nginx, Python, and Playwright images before
+the deterministic checks begin.

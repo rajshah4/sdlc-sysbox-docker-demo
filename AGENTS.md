@@ -33,10 +33,8 @@ Before opening a PR:
 - Concurrent integration tests: `tests/integration/`
 - Docker/Sysbox validation: `scripts/validation/`
 - GitHub automations: `automations/github/`
-- Repo-local OpenHands skills: `skills/`
 - Setup and registration scripts: `scripts/`
 - Demo docs: `docs/`
-- Durable repo memory: `docs/repo-memory/`
 
 ## Automation Rules
 
@@ -46,7 +44,7 @@ Before opening a PR:
 - Do not print or commit secrets.
 - Do not mount the host Docker socket.
 - Prefer deterministic scripts and preflight checks before spending LLM calls.
-- Use `docs/repo-memory/` and `skills/sdlc-context-reuse/SKILL.md` before broad exploration; use lower-cost scout/model profiles for context gathering when available.
+- Read `docs/sysbox-demo-runbook.md` before broad exploration.
 - Use event-driven GitHub triggers instead of polling.
 - Avoid dependency installation in automation helper scripts unless a prompt explicitly authorizes it.
 
