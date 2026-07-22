@@ -1,5 +1,7 @@
 # Fix the concurrent adoption race and prove it with nested Docker
 
+GitHub issue: {{ISSUE_URL}}
+
 Work on the GitHub issue supplied with this prompt. You own the change through
 a reviewable draft pull request; do not merge it.
 
