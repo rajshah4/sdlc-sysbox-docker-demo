@@ -7,7 +7,7 @@ test.beforeEach(async ({ request }) => {
 test("customer can submit an adoption through the web stack", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Containerized Petstore" })).toBeVisible();
-  const mochi = page.locator('[data-pet-id="pet-100"]');
+  const mochi = page.locator('li.pet[data-pet-id="pet-100"]');
   await expect(mochi).toContainText("Mochi");
   await mochi.getByRole("button", { name: "Adopt" }).click();
   await expect(page.getByRole("status")).toHaveText("Mochi's adoption request was accepted.");
