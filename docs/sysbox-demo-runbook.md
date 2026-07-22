@@ -51,6 +51,8 @@ through the demo environment.
 
 - If `docker info` fails, inspect `/tmp/petstore-dockerd.log` inside the
   sandbox. Do not work around this by mounting the host socket.
+- Give the preflight terminal action at least 600 seconds on a cold sandbox;
+  the nested `hello-world` pull is platform verification, not agent reasoning.
 - If the first build is slow, distinguish image pull time from agent reasoning
   time. Subsequent warm-sandbox runs should be faster.
 - If PostgreSQL has stale state, rerun with `docker compose down -v`.

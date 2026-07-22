@@ -12,8 +12,9 @@ If the repository is not already present in the workspace, clone
 Required workflow:
 
 1. Read `AGENTS.md` and `docs/sysbox-demo-runbook.md`.
-2. Run `scripts/validation/sysbox_preflight.sh`. Record that nested Docker is
-   usable and that the host Docker socket is not mounted.
+2. Run `scripts/validation/sysbox_preflight.sh` with a terminal timeout of at
+   least 600 seconds for a cold image pull. Record that nested Docker is usable
+   and that the host Docker socket is not mounted.
 3. Run `scripts/validation/reproduce_adoption_race.sh` before editing. Preserve
    the command result in the working tree as pre-fix evidence.
 4. Inspect the API and database schema. Fix the concurrency bug at the database

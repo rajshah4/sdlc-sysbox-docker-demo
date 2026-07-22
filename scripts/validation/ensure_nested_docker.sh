@@ -12,8 +12,10 @@ if ! docker info >/dev/null 2>&1; then
     echo "ERROR: sudo is required to start the nested Docker daemon." >&2
     exit 1
   fi
-  sudo dockerd > /tmp/petstore-dockerd.log 2>&1 &
-  for _ in $(seq 1 30); do
+  # `sudo -b` detaches the daemon from the agent's individual terminal action.
+  # A plain trailing `&` can be reaped when that action exits or times out.
+  sudo -b dockerd > /tmp/petstore-dockerd.log 2>&1
+  for _ in $(seq 1 60); do
     docker info >/dev/null 2>&1 && break
     sleep 1
   done
