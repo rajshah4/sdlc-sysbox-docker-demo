@@ -5,6 +5,10 @@ GitHub issue: {{ISSUE_URL}}
 Work on the GitHub issue supplied with this prompt. You own the change through
 a reviewable draft pull request; do not merge it.
 
+If the repository is not already present in the workspace, clone
+`https://github.com/rajshah4/sdlc-sysbox-docker-demo.git`, enter it, and use the
+`GITHUB_TOKEN` secret for authenticated GitHub writes without printing it.
+
 Required workflow:
 
 1. Read `AGENTS.md` and `docs/sysbox-demo-runbook.md`.

@@ -15,6 +15,11 @@ Docker daemon remains isolated inside the agent sandbox.
 - Allow up to 30 minutes for the first run because base images may need to be
   pulled into a fresh inner Docker cache.
 
+For a newly created repository, add it to the OpenHands GitHub App installation
+before using a repo-backed conversation. An unbound conversation can still
+clone the public repository and use the stored `GITHUB_TOKEN`, which is useful
+for initial validation but is not the final event-triggered setup.
+
 ## Live sequence
 
 1. Open the race-condition GitHub issue.
