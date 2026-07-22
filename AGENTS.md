@@ -1,12 +1,37 @@
 # Agent Instructions
 
-This is the GitHub-native SDLC Automation Demo. Customer-facing language should say "SDLC Automation Demo" and should not use "software factory."
+This is the Sysbox Docker-in-Docker SDLC Automation Demo. Customer-facing
+language should say "SDLC Automation Demo" and should not use "software
+factory."
+
+## Demo Objective
+
+This repository proves that an OpenHands agent running in an isolated Sysbox
+sandbox can launch and test a realistic containerized application topology.
+Docker must run inside the sandbox. Never mount or request the host Docker
+socket (`/var/run/docker.sock`).
+
+Before changing code:
+
+1. Run `scripts/validation/sysbox_preflight.sh`.
+2. Run `scripts/validation/reproduce_adoption_race.sh` to reproduce the bug.
+3. Preserve the pre-fix evidence under `artifacts/qa/` in the working tree.
+
+Before opening a PR:
+
+1. Run `scripts/validation/verify_stack.sh`.
+2. Include the Docker engine security options, Compose service health, the
+   concurrent integration result, and browser result in the PR body.
+3. Do not claim success from unit tests alone.
 
 ## Repository Shape
 
-- Petstore app: `app/petstore_app/`
+- Petstore API: `app/petstore_app/`
 - Backend tests: `app/tests/`
-- Static UI: `app/web/`
+- Containerized web UI: `app/web/`
+- PostgreSQL schema: `app/db/`
+- Concurrent integration tests: `tests/integration/`
+- Docker/Sysbox validation: `scripts/validation/`
 - GitHub automations: `automations/github/`
 - Repo-local OpenHands skills: `skills/`
 - Setup and registration scripts: `scripts/`
@@ -19,6 +44,7 @@ This is the GitHub-native SDLC Automation Demo. Customer-facing language should 
 - OpenHands may create branches, tests, comments, reports, and draft PRs when the relevant GitHub label or comment asks it to.
 - Do not push directly to `main`.
 - Do not print or commit secrets.
+- Do not mount the host Docker socket.
 - Prefer deterministic scripts and preflight checks before spending LLM calls.
 - Use `docs/repo-memory/` and `skills/sdlc-context-reuse/SKILL.md` before broad exploration; use lower-cost scout/model profiles for context gathering when available.
 - Use event-driven GitHub triggers instead of polling.
@@ -30,3 +56,5 @@ This is the GitHub-native SDLC Automation Demo. Customer-facing language should 
 - Pending pets can be shown only when explicitly requested and cannot be adopted.
 - Money is represented as integer cents.
 - UI-visible changes need UI evidence, not only unit tests.
+- A pet can have at most one accepted adoption, even when requests arrive
+  concurrently.

@@ -1,0 +1,86 @@
+name: petstore-sysbox-demo
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: petstore
+      POSTGRES_USER: petstore
+      POSTGRES_PASSWORD: petstore-demo-only
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U petstore -d petstore"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build:
+      context: .
+    environment:
+      DATABASE_URL: postgresql://petstore:petstore-demo-only@postgres:5432/petstore
+      REDIS_URL: redis://redis:6379/0
+      ADOPTION_RACE_DELAY_SECONDS: "0.35"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  web:
+    build:
+      context: app/web
+    ports:
+      - "8080:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost/"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+  integration-tests:
+    build:
+      context: .
+    profiles: ["test"]
+    environment:
+      PETSTORE_API_URL: http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    volumes:
+      - ./tests:/app/tests:ro
+    command: ["python", "-m", "pytest", "-q", "tests/integration"]
+
+  browser-tests:
+    build:
+      context: app/web/tests
+    profiles: ["test"]
+    environment:
+      PETSTORE_WEB_URL: http://web
+    depends_on:
+      web:
+        condition: service_healthy
+    volumes:
+      - ./artifacts/qa:/artifacts
+    command: ["npx", "playwright", "test", "--reporter=line"]
+
+volumes:
+  postgres-data:

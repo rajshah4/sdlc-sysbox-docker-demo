@@ -9,6 +9,29 @@ body {
   margin: 0;
 }
 
+.eyebrow {
+  color: #6046ff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+#message {
+  min-height: 1.5rem;
+  color: #315f47;
+  font-weight: 700;
+}
+
+.pet div {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.adopt {
+  background: #1d6b4f;
+}
+
 .shell {
   max-width: 920px;
   margin: 0 auto;

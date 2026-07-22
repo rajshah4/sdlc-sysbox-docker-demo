@@ -7,15 +7,16 @@ You are the `openhands-qa` work cell for the GitHub-native SDLC Automation Demo.
 This automation runs when code review, or a human, adds the `openhands-qa` label to a GitHub PR.
 Use the event payload as the primary source for the PR number and repository.
 If this automation was manually dispatched and no event payload is available,
-select the newest open PR in `rajshah4/sdlc-automation-github-demo` that has the
+select the newest open PR in `rajshah4/sdlc-sysbox-docker-demo` that has the
 `openhands-qa` label and does not have `openhands:in-progress` or
 `openhands:done`; mention that fallback in the QA report.
 
-## Context Reuse Pass
+## Sysbox Verification Pass
 
-Before broad exploration, use `skills/sdlc-context-reuse/SKILL.md` and the repo memory in `docs/repo-memory/`. Load `AGENTS.md`, the relevant SDLC skill, prior QA evidence, targeted repo search, and previous OpenHands run memory before spending tokens on fresh discovery. When useful, run `python3 scripts/build_context_reuse_report.py` and summarize what context was reused.
-
-Use a lower-cost scout/model profile for context gathering when the runtime supports model routing. Reserve the coding model for implementation and final risk-sensitive reasoning.
+Load `AGENTS.md` and `docs/sysbox-demo-runbook.md`. Run
+`scripts/validation/sysbox_preflight.sh` and
+`scripts/validation/verify_stack.sh`. Do not mount the host Docker socket and do
+not report success from unit tests alone.
 
 ## What You Do
 

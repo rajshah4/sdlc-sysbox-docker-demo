@@ -1,196 +1,100 @@
-# SDLC Automation Demo for GitHub
+# OpenHands Sysbox SDLC Demo
 
-**Sparse GitHub bug -> OpenHands automation -> spec, code, tests, review, and evidence back in GitHub.**
+**A sparse concurrency bug becomes a transaction-safe fix, proven against a
+containerized application stack running inside an isolated OpenHands sandbox.**
 
-This repo is a customer-facing GitHub-native SDLC Automation Demo. It shows how
-OpenHands can turn lightweight GitHub signals into controlled engineering work
-while humans keep authority through issues, PRs, labels, comments, reviews, and
-merge decisions.
+This repository is a customer-facing SDLC Automation Demo for OpenHands
+Enterprise. It makes Docker-in-Docker visible and useful: the agent launches
+the same multi-service topology an engineer or CI job would use, without
+mounting the host Docker socket.
 
-The target app is intentionally small: a Petstore catalog and adoption service.
-That keeps the demo easy to follow while still producing real artifacts: code
-diffs, tests, UI checks, review comments, and PRs.
+## The Story
 
-This repo is GitHub-first: labels are the automation boundary, GitHub remains
-the system of record, and OpenHands does the agent work only when a human asks
-for it.
+Two customers try to adopt the last available pet at the same time. The
+baseline API performs its availability check and write in separate database
+transactions, so both requests can succeed.
 
-## What Problem This Solves
+The OpenHands agent must:
 
-Teams want agentic SDLC automation, but they do not want a parallel workflow
-where requests disappear into a black box. The common bottleneck is:
+1. Start an inner Docker daemon in its Sysbox sandbox.
+2. Build and launch the Petstore topology with Docker Compose.
+3. Reproduce the race against PostgreSQL.
+4. Implement a transaction-safe fix and database invariant.
+5. Rebuild the image and run concurrent integration tests.
+6. Run the Playwright adoption flow through the web container.
+7. Open a PR with the commands and evidence.
 
-1. A bug or product request starts as a sparse issue or comment.
-2. Engineers need to understand the issue, find the right code, implement a fix, add tests, and preserve review judgment.
-3. Demo operators need a path that is easy to explain, repeat, and inspect.
-
-This repo shows two ways to run that loop:
-
-- **Step-by-Step Control:** a human applies labels, and each label triggers one
-  bounded OpenHands automation.
-- **Complete Automation:** one request starts a supervisor conversation, which
-  delegates implementation, review, and QA to child conversations.
-
-## Choose Your Demo Path
-
-| Goal | Use this path | Starts from | Example PR |
-| --- | --- | --- | --- |
-| **Step-by-Step Control** | Human-gated labels and triggers | GitHub issue or PR label | [PR #53](https://github.com/rajshah4/sdlc-automation-github-demo/pull/53) |
-| **Complete Automation: OpenHands Enterprise/Cloud** | Parent supervisor conversation with child conversations | Jira Task event | [PR #94](https://github.com/rajshah4/sdlc-automation-github-demo/pull/94) |
-| **Complete Automation: Agent Canvas** | Parent Canvas conversation with delegated child conversations | Agent Canvas supervisor prompt | [PR #89](https://github.com/rajshah4/sdlc-automation-github-demo/pull/89) |
-
-## Two Ways To Run The SDLC Loop
-
-**Step-by-Step Control** is best when humans want review or approval at each
-phase. A person applies labels such as `openhands-build`,
-`openhands-review`, and `openhands-qa`; each label starts one bounded
-automation. This is the current runnable demo on `main`.
-
-**Complete Automation** is best when one request should drive the whole
-lifecycle. A parent supervisor conversation stays active, creates specialized
-child conversations, waits for their final outputs, writes a lifecycle report,
-and posts the summary back to the system of record.
+## What Runs Inside the Agent Sandbox
 
 ```text
-Request
-  -> parent supervisor conversation
-    -> child: story-to-PR
-    -> child: code-review
-    -> child: QA
-  -> lifecycle report
-  -> Jira or demo summary
+OpenHands runtime pod (Sysbox)
+└── inner Docker daemon
+    ├── petstore API
+    ├── PostgreSQL
+    ├── Redis
+    ├── nginx web UI
+    ├── concurrent integration test (ephemeral)
+    └── Playwright browser test (ephemeral)
 ```
 
-## Step-by-Step Control: The Work Cells
+The architectural proof is in `scripts/validation/sysbox_preflight.sh`: Docker
+must be usable, a nested `hello-world` container must run, and
+`/var/run/docker.sock` must **not** be mounted from the host.
 
-| Work cell | Trigger | What OpenHands does | What humans control |
-| --- | --- | --- | --- |
-| **Context Scout** | Apply `openhands-context` to a sparse issue | Navigates existing business wiki/docs, repo context, logs, prior reports, and previous OpenHands run evidence before expensive model work | Whether to proceed to build, review, or QA work |
-| **Bug to PR** | Apply `openhands-build` to a sparse bug issue | Clarifies the bug, checks repo-local docs and evidence, writes OpenSpec-style change artifacts, implements the fix, runs tests, and opens a PR | Scope, review, approval, and merge |
-| **Code Review** | Apply `openhands-review` to a PR | Reads the diff, checks risk areas, and posts review findings as a PR comment | Which findings block the PR |
-| **Automated QA** | Apply `openhands-qa` to a PR | Builds or updates test coverage, runs deterministic checks, and includes UI test evidence where applicable | Test acceptance and merge readiness |
+## Demo Commands
 
-## Complete Automation: Parent-Child Factory
-
-The parent-child factory uses the same work-cell idea, but removes the need for
-a human to trigger each phase. The implementation is runtime-specific:
-
-| Runtime | Parent creates | Child conversations do | Replication pieces |
-| --- | --- | --- | --- |
-| **OpenHands Enterprise/Cloud** | A supervisor conversation from an automation event | Story-to-PR, code review, and QA in separate OpenHands app conversations | Automation prompt, parent orchestrator helper, app-conversation API helper, child prompts, reusable delegated-factory skill |
-| **Agent Canvas** | A parent Canvas conversation from a supervisor prompt | Story-to-PR, code review, and QA in delegated Canvas conversations | Canvas supervisor prompt, Canvas delegate helper, child prompts, reusable delegated-factory skill |
-
-The core orchestration rule is the same in both paths: one parent conversation
-is the control plane, child conversations own bounded work, and final responses
-are treated as small contracts that the parent can summarize and gate.
-
-The Replicated/OpenHands Enterprise version is runnable from `main` under
-`automations/replicated-jira-delegated-factory/`, `scripts/run_replicated_factory.py`,
-and `skills/delegated-conversation-factory/`.
-
-## Build Your Own Version
-
-Use the path that matches the amount of control you want:
-
-| Pattern | Build guide | Copy/adapt these pieces |
-| --- | --- | --- |
-| **Step-by-Step Control** | [GitHub walkthrough](docs/github-demo-walkthrough.md), [GitHub automation packages](automations/github/README.md), [Jira automation packages](automations/jira/README.md), [script map](scripts/README.md) | One OpenHands automation per gate, repo-local skills, labels/webhooks, and `scripts/automations/register_github_automations.py` or `scripts/automations/register_jira_automations.py` |
-| **Complete Automation: Agent Canvas** | [Parent-child build guide](docs/build-parent-child-factory.md), [Agent Canvas recipe](agent-canvas/README.md), [factory demo notes](docs/agent-canvas-dark-factory-demo.md) | Parent supervisor prompt, child workcell prompts, `agent-canvas/scripts/run_agent_canvas_factory.py`, and `agent-canvas/scripts/agent_canvas_delegate.py` |
-| **Complete Automation: OpenHands Enterprise/Cloud** | [Parent-child build guide](docs/build-parent-child-factory.md), [Replicated runbook](docs/replicated-jira-delegated-factory-demo.md), [delegated-factory skill](skills/delegated-conversation-factory/SKILL.md) | Prompt-preset automation, parent orchestrator, child prompts, app-conversation API helper, and reusable delegated-factory skill |
-
-For the parent-child approaches, the design checklist is:
-
-1. Pick the event that starts the parent conversation.
-2. Write one parent prompt that owns orchestration and human gates.
-3. Write one child prompt per bounded workcell.
-4. Have the parent start child conversations, wait for final responses, and
-   record links/artifacts.
-5. Post the lifecycle summary back to Jira, GitHub, or the demo system of
-   record.
-
-## What You'll See
-
-- A low-cost context scout shows which business wiki/docs, repo context, logs,
-  prior evidence, and previous OpenHands runs can be reused before expensive
-  model work.
-- A sparse bug issue becomes a PR with an implementation branch and visible OpenSpec-style proposal/spec/design/task artifacts.
-- A PR receives an automated review comment rather than a silent background score.
-- QA output lands on the PR with concrete test files and command results. The repo also includes a prebuilt Playwright browser-evidence example with screenshot, GIF, video, and report generation.
-- The complete automation pattern shows how a parent conversation can keep the
-  whole SDLC lifecycle visible while delegating specialized work to child
-  conversations.
-- Status labels such as `openhands:in-progress`, `openhands:needs-human`, and
-  `openhands:done` make the automation state visible without leaving GitHub.
-
-## How It's Built
-
-This repo is intentionally composed from OpenHands platform features and
-repo-local knowledge, not a custom agent runtime.
-
-| Capability | Where it lives | Why it matters |
-| --- | --- | --- |
-| OpenHands automations | `automations/github/`, `automations/jira/` | Event-triggered automations configured in OpenHands. GitHub labels and Jira webhooks start the work; GitHub and Jira remain the systems of record. |
-| Repo-local skills | `skills/` | Reusable skills encode context reuse, story/spec, QA, and code-review behavior with scripts and references that customers can inspect. |
-| Delegated factory pattern | `automations/replicated-jira-delegated-factory/`, `agent-canvas/`, `skills/delegated-conversation-factory/` | Adds the parent-child supervisor path for OpenHands Enterprise/Cloud and Agent Canvas without replacing the label-driven automations. |
-| OpenSpec-style artifacts | `openspec/` | Repo-local context and generated change folders keep request, proposal, spec delta, design, and tasks version controlled. |
-| Deterministic scripts | `scripts/` | Preflight, label setup, fixture simulation, and Petstore checks run before broader model reasoning where possible. |
-| GitHub templates and labels | `.github/` | Issues, PRs, and labels define the human approval boundaries. |
-| Petstore app | `app/` | A small API/UI surface gives the automations realistic code and tests to work on. |
-| Playwright UI evidence | `app/web/tests/` | Browser QA example that records video, creates a GIF preview, captures a screenshot, and writes a report for PR evidence when Playwright is available. |
-
-Cost and security are part of the demo design: event-driven labels avoid
-unnecessary LLM calls, preflight scripts catch configuration issues without
-using a model, different LLM profiles can be used for scouting/coding/review/QA, and
-secrets stay in the OpenHands secret store or local `.env`, never in the repo.
-
-## Fast Local Validation
+Run these commands from an OpenHands Enterprise Sysbox sandbox:
 
 ```bash
-python3 -m pytest -q
-python3 scripts/validation/preflight_github_demo.py --offline
-python3 scripts/validation/simulate_github_event.py --fixture tests/fixtures/github_issue_labeled_context.json
-python3 scripts/validation/simulate_github_event.py --fixture tests/fixtures/github_issue_labeled_build.json
+scripts/validation/sysbox_preflight.sh
+scripts/validation/reproduce_adoption_race.sh
+scripts/validation/verify_stack.sh
 ```
 
-## Register OpenHands Automations
+On the intentionally vulnerable baseline:
 
-OpenHands Automations should be registered with the prompt preset API. The
-GitHub package specs live under `automations/github/`; the normal Jira package
-spec lives under `automations/jira/jira-to-story/`; the visible sidekick demo
-package lives under `automations/jira/jira-to-story-sidekick-v2/`.
+- `reproduce_adoption_race.sh` succeeds and records two accepted adoptions.
+- `verify_stack.sh` fails the concurrency invariant.
 
-Dry-run the registration payloads:
+After the issue is fixed, the expected result reverses:
 
-```bash
-python3 scripts/automations/register_github_automations.py --dry-run
-python3 scripts/automations/register_jira_automations.py --dry-run
-```
+- the reproduction no longer observes two accepted requests;
+- the full verification passes integration and browser checks.
 
-Apply registration when `OPENHANDS_HOST_GITHUB`, an OpenHands API key such as `OPENHANDS_API_KEY_GITHUB` or `OPENHANDS_API_KEY_ORG`, `GITHUB_DEMO_REPOSITORY`, and `GITHUB_DEMO_REPO_URL` are set:
+QA evidence is written to `artifacts/qa/` and is excluded from commits except
+for the directory placeholder.
 
-```bash
-python3 scripts/automations/register_github_automations.py --apply
-```
+## Audience-Friendly Before and After
 
-Register Jira packages with:
+| Without nested Docker verification | With OpenHands Enterprise + Sysbox |
+| --- | --- |
+| Unit tests pass | API image is rebuilt |
+| PostgreSQL race is not exercised | PostgreSQL and Redis are launched |
+| Browser flow is unavailable | Playwright verifies the web flow |
+| Confidence is incomplete | Concurrency invariant is proven |
 
-```bash
-python3 scripts/automations/register_jira_automations.py --apply
-```
+The narration line is:
 
-For a fast live demo, keep `jira-to-story` enabled and `jira-to-story-sidekick-v2`
-disabled. For the visible multi-conversation demo, switch those states and create
-the Jira Task with label `sidekick-v2`.
+> The coding agent is already isolated in an OpenHands sandbox. Sysbox lets it
+> create another containerized application environment inside that sandbox,
+> without giving it control of the host Docker daemon.
 
-No secrets belong in this repo. Store OpenHands, GitHub, Jira, and Slack credentials in the OpenHands secret store or a local `.env` excluded by `.gitignore`.
+## Repository Map
 
-## Demo Docs
+| Path | Purpose |
+| --- | --- |
+| `compose.yaml` | API, PostgreSQL, Redis, web, integration, and browser services |
+| `Dockerfile` | Petstore API image |
+| `app/petstore_app/api.py` | Intentionally vulnerable baseline API |
+| `app/db/001_schema.sql` | Baseline database schema and seed data |
+| `tests/integration/` | Black-box concurrent adoption verification |
+| `app/web/tests/` | Containerized Playwright test |
+| `scripts/validation/` | Sysbox preflight, reproduction, and full QA path |
+| `prompts/fix-adoption-race.md` | Prompt for the live OpenHands run |
+| `docs/sysbox-demo-runbook.md` | Operator walkthrough and evidence checklist |
 
-- [GitHub demo walkthrough](docs/github-demo-walkthrough.md)
-- [Build a parent-child automation factory](docs/build-parent-child-factory.md)
-- [Agent Canvas delegated factory](agent-canvas/README.md)
-- [Script map](scripts/README.md)
-- [Enterprise memory and cost demo](docs/enterprise-memory-cost-demo.md)
-- [Setup checklist](docs/setup-checklist.md)
-- [Demo upgrade backlog](docs/demo-upgrades.md)
-- [Prebuilt UI and Playwright example](docs/ui-playwright-example.md)
+## Human Control
+
+OpenHands may create a branch, tests, evidence, comments, and a draft PR. A
+human approves scope, reviews the solution, merges, and controls deployment.
+Secrets remain in the OpenHands secret store and never belong in this repo.

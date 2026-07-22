@@ -3,13 +3,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SDLC Automation Petstore</title>
+    <title>Sysbox SDLC Petstore</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <main class="shell">
       <section class="toolbar" aria-label="Pet search controls">
-        <h1>Petstore SDLC Demo</h1>
+        <p class="eyebrow">OpenHands Enterprise · Sysbox</p>
+        <h1>Containerized Petstore</h1>
+        <p>API + PostgreSQL + Redis + browser verification, launched inside the agent sandbox.</p>
         <label>
           Pet name
           <input id="query" type="search" value="">
@@ -27,6 +29,7 @@
       </section>
       <section>
         <h2>Available Pets</h2>
+        <p id="message" role="status" aria-live="polite"></p>
         <ul id="results" class="results"></ul>
       </section>
     </main>

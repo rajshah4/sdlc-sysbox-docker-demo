@@ -1,37 +1,58 @@
-const pets = [
-  { id: "pet-100", name: "Mochi", species: "cat", status: "available", tags: ["calm", "indoor"], fee: "$75" },
-  { id: "pet-101", name: "Scout", species: "dog", status: "available", tags: ["active", "family"], fee: "$125" },
-  { id: "pet-102", name: "Pip", species: "rabbit", status: "available", tags: ["quiet", "indoor"], fee: "$45" },
-  { id: "pet-103", name: "Nova", species: "dog", status: "pending", tags: ["active", "training"], fee: "$110" },
-];
+const list = document.querySelector("#results");
+const message = document.querySelector("#message");
 
-function renderResults() {
+function dollars(cents) {
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(cents / 100);
+}
+
+async function loadPets() {
+  const response = await fetch("/api/pets");
+  const pets = await response.json();
   const query = document.querySelector("#query").value.trim().toLowerCase();
   const species = document.querySelector("#species").value;
-  const list = document.querySelector("#results");
   list.innerHTML = "";
 
-  const matches = pets.filter((pet) => {
-    return pet.name.toLowerCase().includes(query)
-      && (species === "" || pet.species === species)
-      && pet.status === "available";
-  });
+  const matches = pets.filter((pet) =>
+    pet.status === "available"
+      && pet.name.toLowerCase().includes(query)
+      && (species === "" || pet.species === species));
 
   if (matches.length === 0) {
-    const empty = document.createElement("li");
-    empty.className = "empty";
-    empty.textContent = "No available pets match this search.";
-    list.appendChild(empty);
+    list.innerHTML = '<li class="empty">No available pets match this search.</li>';
     return;
   }
 
   for (const pet of matches) {
     const item = document.createElement("li");
     item.className = "pet";
-    item.innerHTML = `<strong>${pet.name}</strong><span>${pet.species} · ${pet.tags.join(", ")}</span><b>${pet.fee}</b>`;
+    item.dataset.petId = pet.id;
+    item.innerHTML = `
+      <div><strong>${pet.name}</strong><span>${pet.species}</span></div>
+      <b>${dollars(pet.adoption_fee_cents)}</b>
+      <button class="adopt" data-pet-id="${pet.id}" data-pet-name="${pet.name}">Adopt</button>`;
     list.appendChild(item);
   }
 }
 
-document.querySelector("#search-button").addEventListener("click", renderResults);
-renderResults();
+async function adopt(petId, petName) {
+  message.textContent = `Submitting adoption for ${petName}…`;
+  const response = await fetch("/api/adoptions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ pet_id: petId, adopter_email: "demo@example.com" }),
+  });
+  if (!response.ok) {
+    const body = await response.json();
+    message.textContent = body.detail || "Adoption could not be completed.";
+    return;
+  }
+  message.textContent = `${petName}'s adoption request was accepted.`;
+  await loadPets();
+}
+
+document.querySelector("#search-button").addEventListener("click", loadPets);
+list.addEventListener("click", (event) => {
+  const button = event.target.closest("button.adopt");
+  if (button) adopt(button.dataset.petId, button.dataset.petName);
+});
+loadPets();
