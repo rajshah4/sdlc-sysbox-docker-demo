@@ -69,28 +69,28 @@ def list_pets() -> list[dict[str, object]]:
 
 @app.post("/api/adoptions", status_code=201)
 def create_adoption(request: AdoptionRequest) -> dict[str, object]:
-    """Create an adoption.
+    """Create an adoption atomically.
 
-    This baseline implementation intentionally checks and writes in separate
-    transactions. Two callers can both observe an available pet before either
-    changes its status. The demo issue asks the agent to make this atomic.
+    Uses SELECT FOR UPDATE to lock the pet row within a single transaction,
+    ensuring that only one concurrent request can adopt the same pet.
+    The database UNIQUE constraint on adoptions.pet_id provides a durable
+    invariant independent of application timing.
     """
     if "@" not in request.adopter_email:
         raise HTTPException(status_code=422, detail="valid adopter email required")
 
-    with psycopg.connect(DATABASE_URL) as connection:
-        pet = connection.execute(
-            "SELECT status, adoption_fee_cents FROM pets WHERE id = %s",
-            (request.pet_id,),
-        ).fetchone()
-    if pet is None:
-        raise HTTPException(status_code=404, detail="pet not found")
-    if pet[0] != "available":
-        raise HTTPException(status_code=409, detail="pet is no longer available")
-
     time.sleep(RACE_DELAY_SECONDS)
 
     with psycopg.connect(DATABASE_URL) as connection:
+        pet = connection.execute(
+            "SELECT status, adoption_fee_cents FROM pets WHERE id = %s FOR UPDATE",
+            (request.pet_id,),
+        ).fetchone()
+        if pet is None:
+            raise HTTPException(status_code=404, detail="pet not found")
+        if pet[0] != "available":
+            raise HTTPException(status_code=409, detail="pet is no longer available")
+
         adoption_id = connection.execute(
             "INSERT INTO adoptions (pet_id, adopter_email) VALUES (%s, %s) RETURNING id",
             (request.pet_id, request.adopter_email),

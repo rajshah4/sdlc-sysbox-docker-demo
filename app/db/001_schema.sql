@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS adoptions (
     id bigserial PRIMARY KEY,
     pet_id text NOT NULL REFERENCES pets(id),
     adopter_email text NOT NULL,
-    created_at timestamptz NOT NULL DEFAULT now()
+    created_at timestamptz NOT NULL DEFAULT now(),
+    UNIQUE (pet_id)
 );
 
 INSERT INTO pets (id, name, species, status, adoption_fee_cents) VALUES
